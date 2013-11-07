@@ -19,6 +19,19 @@
 		4EC9543A182BBD020065C93D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95422182BBD020065C93D /* UIKit.framework */; };
 		4EC95442182BBD020065C93D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4EC95440182BBD020065C93D /* InfoPlist.strings */; };
 		4EC95444182BBD020065C93D /* MA4TV2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95443182BBD020065C93D /* MA4TV2Tests.m */; };
+		4EC95476182BBD4D0065C93D /* ViewNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95467182BBD4D0065C93D /* ViewNoteController.m */; };
+		4EC95477182BBD4D0065C93D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95468182BBD4D0065C93D /* MainViewController.m */; };
+		4EC95478182BBD4D0065C93D /* NewTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95469182BBD4D0065C93D /* NewTaskViewController.m */; };
+		4EC95479182BBD4D0065C93D /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC9546B182BBD4D0065C93D /* NotesViewController.m */; };
+		4EC9547A182BBD4D0065C93D /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC9546E182BBD4D0065C93D /* Task.m */; };
+		4EC9547B182BBD4D0065C93D /* Category1.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95471182BBD4D0065C93D /* Category1.m */; };
+		4EC9547C182BBD4D0065C93D /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95473182BBD4D0065C93D /* Note.m */; };
+		4EC9547E182BBEE70065C93D /* 5.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC9547D182BBEE70065C93D /* 5.png */; };
+		4EC95481182BD3440065C93D /* POIDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95480182BD3440065C93D /* POIDetailViewController.m */; };
+		4EC95484182BDBB20065C93D /* POIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95483182BDBB20065C93D /* POIViewController.m */; };
+		4EC95487182BDDE90065C93D /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95485182BDDE90065C93D /* MapViewController.m */; };
+		4EC95489182BDE5E0065C93D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95488182BDE5E0065C93D /* MapKit.framework */; };
+		4EC9548B182BDE850065C93D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC9548A182BDE850065C93D /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +61,29 @@
 		4EC9543F182BBD020065C93D /* MA4TV2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MA4TV2Tests-Info.plist"; sourceTree = "<group>"; };
 		4EC95441182BBD020065C93D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4EC95443182BBD020065C93D /* MA4TV2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MA4TV2Tests.m; sourceTree = "<group>"; };
+		4EC95467182BBD4D0065C93D /* ViewNoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewNoteController.m; sourceTree = "<group>"; };
+		4EC95468182BBD4D0065C93D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		4EC95469182BBD4D0065C93D /* NewTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTaskViewController.m; sourceTree = "<group>"; };
+		4EC9546A182BBD4D0065C93D /* NewTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTaskViewController.h; sourceTree = "<group>"; };
+		4EC9546B182BBD4D0065C93D /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesViewController.m; sourceTree = "<group>"; };
+		4EC9546C182BBD4D0065C93D /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesViewController.h; sourceTree = "<group>"; };
+		4EC9546D182BBD4D0065C93D /* ViewNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewNoteController.h; sourceTree = "<group>"; };
+		4EC9546E182BBD4D0065C93D /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		4EC9546F182BBD4D0065C93D /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		4EC95470182BBD4D0065C93D /* Category1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category1.h; sourceTree = "<group>"; };
+		4EC95471182BBD4D0065C93D /* Category1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category1.m; sourceTree = "<group>"; };
+		4EC95472182BBD4D0065C93D /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		4EC95473182BBD4D0065C93D /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		4EC95474182BBD4D0065C93D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		4EC9547D182BBEE70065C93D /* 5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5.png; sourceTree = "<group>"; };
+		4EC9547F182BD3440065C93D /* POIDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIDetailViewController.h; sourceTree = "<group>"; };
+		4EC95480182BD3440065C93D /* POIDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIDetailViewController.m; sourceTree = "<group>"; };
+		4EC95482182BDBB20065C93D /* POIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIViewController.h; sourceTree = "<group>"; };
+		4EC95483182BDBB20065C93D /* POIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIViewController.m; sourceTree = "<group>"; };
+		4EC95485182BDDE90065C93D /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		4EC95486182BDDE90065C93D /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		4EC95488182BDE5E0065C93D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		4EC9548A182BDE850065C93D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +91,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EC9548B182BDE850065C93D /* CoreLocation.framework in Frameworks */,
+				4EC95489182BDE5E0065C93D /* MapKit.framework in Frameworks */,
 				4EC95421182BBD020065C93D /* CoreGraphics.framework in Frameworks */,
 				4EC95423182BBD020065C93D /* UIKit.framework in Frameworks */,
 				4EC9541F182BBD020065C93D /* Foundation.framework in Frameworks */,
@@ -96,6 +134,8 @@
 		4EC9541D182BBD020065C93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EC9548A182BDE850065C93D /* CoreLocation.framework */,
+				4EC95488182BDE5E0065C93D /* MapKit.framework */,
 				4EC9541E182BBD020065C93D /* Foundation.framework */,
 				4EC95420182BBD020065C93D /* CoreGraphics.framework */,
 				4EC95422182BBD020065C93D /* UIKit.framework */,
@@ -109,6 +149,27 @@
 			children = (
 				4EC9542D182BBD020065C93D /* MA4TV2AppDelegate.h */,
 				4EC9542E182BBD020065C93D /* MA4TV2AppDelegate.m */,
+				4EC95474182BBD4D0065C93D /* MainViewController.h */,
+				4EC95468182BBD4D0065C93D /* MainViewController.m */,
+				4EC9547F182BD3440065C93D /* POIDetailViewController.h */,
+				4EC95480182BD3440065C93D /* POIDetailViewController.m */,
+				4EC95485182BDDE90065C93D /* MapViewController.m */,
+				4EC95486182BDDE90065C93D /* MapViewController.h */,
+				4EC95482182BDBB20065C93D /* POIViewController.h */,
+				4EC95483182BDBB20065C93D /* POIViewController.m */,
+				4EC9547D182BBEE70065C93D /* 5.png */,
+				4EC95467182BBD4D0065C93D /* ViewNoteController.m */,
+				4EC95469182BBD4D0065C93D /* NewTaskViewController.m */,
+				4EC9546A182BBD4D0065C93D /* NewTaskViewController.h */,
+				4EC9546B182BBD4D0065C93D /* NotesViewController.m */,
+				4EC9546C182BBD4D0065C93D /* NotesViewController.h */,
+				4EC9546D182BBD4D0065C93D /* ViewNoteController.h */,
+				4EC9546E182BBD4D0065C93D /* Task.m */,
+				4EC9546F182BBD4D0065C93D /* Task.h */,
+				4EC95470182BBD4D0065C93D /* Category1.h */,
+				4EC95471182BBD4D0065C93D /* Category1.m */,
+				4EC95472182BBD4D0065C93D /* Note.h */,
+				4EC95473182BBD4D0065C93D /* Note.m */,
 				4EC95430182BBD020065C93D /* Images.xcassets */,
 				4EC95425182BBD020065C93D /* Supporting Files */,
 			);
@@ -220,6 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EC9547E182BBEE70065C93D /* 5.png in Resources */,
 				4EC95429182BBD020065C93D /* InfoPlist.strings in Resources */,
 				4EC95431182BBD020065C93D /* Images.xcassets in Resources */,
 			);
@@ -240,7 +302,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EC9547B182BBD4D0065C93D /* Category1.m in Sources */,
+				4EC95484182BDBB20065C93D /* POIViewController.m in Sources */,
+				4EC95481182BD3440065C93D /* POIDetailViewController.m in Sources */,
+				4EC95487182BDDE90065C93D /* MapViewController.m in Sources */,
+				4EC95476182BBD4D0065C93D /* ViewNoteController.m in Sources */,
+				4EC95478182BBD4D0065C93D /* NewTaskViewController.m in Sources */,
 				4EC9542F182BBD020065C93D /* MA4TV2AppDelegate.m in Sources */,
+				4EC9547C182BBD4D0065C93D /* Note.m in Sources */,
+				4EC9547A182BBD4D0065C93D /* Task.m in Sources */,
+				4EC95479182BBD4D0065C93D /* NotesViewController.m in Sources */,
+				4EC95477182BBD4D0065C93D /* MainViewController.m in Sources */,
 				4EC9542B182BBD020065C93D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
