@@ -14,13 +14,6 @@
 
 @implementation MainViewController
 
-- (NSMutableArray* ) taskArray{
-    if(_taskArray == nil){
-        _taskArray = [[NSMutableArray alloc] init];
-    }
-    return _taskArray;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -28,81 +21,71 @@
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     
-    self.view.backgroundColor =  [UIColor groupTableViewBackgroundColor];
+    self.view.backgroundColor =  [UIColor whiteColor];
+    self.title = @"Lisbon";
     
-     self.title = @"Lisbon";
-    
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"5.png"]];
-    self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4);
+    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"4.png"]];
+    self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
+    self.imageView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.imageView];
     
-    
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 40+(screenHeight/4), screenWidth, 40)];
+    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,40+ 40+(screenHeight/4), screenWidth, 40)];
     pickerToolbar.barStyle = UIBarStyleDefault;
     [pickerToolbar sizeToFit];
-    //pickerToolbar.backgroundColor = [UIColor clearColor];
+    //pickerToolbar.tintColor = [UIColor groupTableViewBackgroundColor];
+    //pickerToolbar.translucent = YES;
+    pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
-    UIBarButtonItem *mapButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+    UIBarButtonItem *mapButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style: UIBarButtonItemStylePlain target:self action:@selector(mapClicked:)];
     [barItems addObject:mapButton];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
        [barItems addObject:flexSpace];
-    
     UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithTitle:@"Search" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
     [barItems addObject:searchButton];
-   
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
-    
     UIBarButtonItem *syncButton = [[UIBarButtonItem alloc] initWithTitle:@"Sync" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
     [barItems addObject:syncButton];
-    
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
-    
-    UIBarButtonItem *favButton = [[UIBarButtonItem alloc] initWithTitle:@"Favourites" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+    UIBarButtonItem *favButton = [[UIBarButtonItem alloc] initWithTitle:@"Favourites" style: UIBarButtonItemStylePlain target:self action:@selector(favouritesClicked:)];
     [barItems addObject:favButton];
-    
-//    flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-//    [barItems addObject:flexSpace];
     
     [pickerToolbar setItems:barItems animated:YES];
     [self.view addSubview:pickerToolbar];
    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80+(screenHeight/4), screenWidth, screenHeight) style:UITableViewStyleGrouped];
-    self.tableView.rowHeight = 60;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,40+80+(screenHeight/4), screenWidth, screenHeight) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 40;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.sectionHeaderHeight = 0.0;
+    self.tableView.sectionFooterHeight = 0.0;
     [self.view addSubview:self.tableView];
-    
-//    UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newClicked:)] ;
-//    UIBarButtonItem *delButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(delClicked:)] ;
-//    self.navigationItem.rightBarButtonItems = @[newButton,delButton];
-//    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
-- (void)addItemViewController:(NewTaskViewController *)controller didFinishEnteringItem:(Task *)item
-{
-    NSLog(@"This was returned from ViewControllerB %@",item.category.name);
-    [self.taskArray addObject:item];
-    [self.tableView reloadData];
+//- (void)addItemViewController:(NewTaskViewController *)controller didFinishEnteringItem:(Task *)item
+//{
+//    NSLog(@"This was returned from ViewControllerB %@",item.category.name);
+//    [self.taskArray addObject:item];
+//    [self.tableView reloadData];
+//}
+//
+//- (void)removeItemViewController:(ViewNoteController *)controller didFinishEnteringItem:(Task *)item{
+//    if([self.taskArray containsObject:item]){
+//        [self.taskArray removeObject:item];
+//    }
+//    [self.tableView reloadData];
+//}
+
+- (IBAction)favouritesClicked:(id)sender {
+    FavouritesViewController *favView = [[FavouritesViewController alloc] init];
+    [self.navigationController pushViewController:favView animated:YES];
 }
 
-- (void)removeItemViewController:(ViewNoteController *)controller didFinishEnteringItem:(Task *)item{
-    if([self.taskArray containsObject:item]){
-        [self.taskArray removeObject:item];
-    }
-    [self.tableView reloadData];
-}
-
-- (IBAction)newClicked:(id)sender {
-    NewTaskViewController *newTaskView = [[NewTaskViewController alloc] init];
-    newTaskView.delegate = self;
-    [self.navigationController pushViewController:newTaskView animated:YES];
-}
-
--(IBAction)delClicked:(id)sender{
-//Delete all tasks
+- (IBAction)mapClicked:(id)sender {
+    MapViewController *mapView = [[MapViewController alloc] init];
+    [self.navigationController pushViewController:mapView animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -125,12 +108,12 @@
     }
     if (indexPath.section == 0 ) {
 //        self.task= [self.taskArray objectAtIndex:indexPath.row];
-//        cell.textLabel.text = self.task.name;
-//        cell.detailTextLabel.text = self.task.date;
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = @"Tour1";
+        cell.imageView.image = [UIImage imageNamed:@"5.png"];
     } else {
         cell.textLabel.text = @"Category1";
+        cell.imageView.image = [UIImage imageNamed:@"1.png"];
         //cell.textLabel.textColor = [UIColor lightGrayColor];
         cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -139,53 +122,45 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-        POIViewController *tourDetail = [[POIViewController alloc] init];
-    [self.navigationController pushViewController:tourDetail animated:YES];
-    
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.taskArray.count ) {
-        return UITableViewCellEditingStyleDelete;
-    } else {
-        return UITableViewCellEditingStyleInsert;
-    }
-}
-
--(void)setEditing:(BOOL)editing animated:(BOOL) animated {
-    if( editing != self.editing ) {
-        [super setEditing:editing animated:animated];
-        [self.tableView setEditing:editing animated:animated];
-        NSArray *indexes =
-        [NSArray arrayWithObject:
-        [NSIndexPath indexPathForRow:self.taskArray.count inSection:0]];
-        if (editing == YES ) {
-            [self.tableView insertRowsAtIndexPaths:indexes
-                             withRowAnimation:UITableViewRowAnimationLeft];
-        } else {
-            [self.tableView deleteRowsAtIndexPaths:indexes
-                             withRowAnimation:UITableViewRowAnimationLeft];
-        }
-    }
-}
-
-- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle) editing
- forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(editing == UITableViewCellEditingStyleDelete ) {
-        [self.taskArray removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                  withRowAnimation:UITableViewRowAnimationLeft];
+    if (indexPath.section==0) {
+        TourViewController *tourView = [[TourViewController alloc]init];
+        [self.navigationController pushViewController:tourView animated:YES];
     }else{
-        NewTaskViewController *newTaskView = [[NewTaskViewController alloc] init];
-        newTaskView.delegate = self;
-        [self.navigationController pushViewController:newTaskView animated:YES];
+        POIViewController *poiView = [[POIViewController alloc] init];
+        [self.navigationController pushViewController:poiView animated:YES];
     }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section==0) {
+        return @"Tours";
+    }else{
+        return @"Categories";
+    }
+}
 
 //Extra Functions
+
+/*
+//For custom table header
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UILabel *headerLabel = [[UILabel alloc]init];
+    if (section==0) {
+       headerLabel.text = @"Tours";
+    }else{
+        headerLabel.text = @"Categories";
+    }
+
+
+    headerLabel.textColor = [UIColor blackColor];
+    //headerLabel.shadowColor = [UIColor blackColor];
+    headerLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
+    headerLabel.backgroundColor = [UIColor clearColor];
+    headerLabel.textAlignment = NSTextAlignmentLeft;
+
+    return headerLabel;
+}
+*/
 
 /*
 //Reset memory using NSUserDefaults
@@ -239,21 +214,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     //Log all saved keys
     NSLog(@"%@", [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys]);
-}*/
-
-/*
-//For table header
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-
-    UILabel *headerLabel = [[UILabel alloc]init];
-    headerLabel.text = @"Task List";
-    headerLabel.textColor = [UIColor blackColor];
-    //headerLabel.shadowColor = [UIColor blackColor];
-    headerLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
-    headerLabel.backgroundColor = [UIColor clearColor];
-    headerLabel.textAlignment = NSTextAlignmentCenter;
-
-    return headerLabel;
 }*/
 
 /*

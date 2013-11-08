@@ -1,18 +1,18 @@
 //
-//  POIViewController.m
+//  TourViewController.m
 //  MA4TV2
 //
-//  Created by Mats Sandvoll on 07.11.13.
+//  Created by Mats Sandvoll on 08.11.13.
 //  Copyright (c) 2013 Mats Sandvoll. All rights reserved.
 //
 
-#import "POIViewController.h"
+#import "TourViewController.h"
 
-@interface POIViewController ()
+@interface TourViewController ()
 
 @end
 
-@implementation POIViewController
+@implementation TourViewController
 
 - (void)viewDidLoad
 {
@@ -27,7 +27,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    self.title = @"POIs";
+    self.title = @"Tours";
     
 }
 
@@ -36,24 +36,25 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 8;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    cell.textLabel.text = @"POI";
-    cell.imageView.image = [UIImage imageNamed:@"1.png"];
+    cell.textLabel.text = @"Tour";
+    cell.imageView.image = [UIImage imageNamed:@"5.png"];
+    cell.detailTextLabel.text = @"Distance:10km   Duration:3h";
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    POIDetailViewController *poiDetail = [[POIDetailViewController alloc] init];
-    [self.navigationController pushViewController:poiDetail animated:YES];
+    TourDetailViewController *tourDetail = [[TourDetailViewController alloc] init];
+    [self.navigationController pushViewController:tourDetail animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

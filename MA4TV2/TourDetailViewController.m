@@ -2,74 +2,98 @@
 //  TourDetailViewController.m
 //  MA4TV2
 //
-//  Created by Mats Sandvoll on 07.11.13.
+//  Created by Mats Sandvoll on 08.11.13.
 //  Copyright (c) 2013 Mats Sandvoll. All rights reserved.
 //
 
-#import "POIDetailViewController.h"
+#import "TourDetailViewController.h"
 
-@interface POIDetailViewController ()
+@interface TourDetailViewController ()
 
 @end
 
-@implementation POIDetailViewController
+@implementation TourDetailViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(mapClicked:)];
-        self.navigationItem.rightBarButtonItem = newButton;
+    self.navigationItem.rightBarButtonItem = newButton;
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     
     self.view.backgroundColor =  [UIColor groupTableViewBackgroundColor];
-    self.title = @"POI Detail";
+    self.title = @"Tour Detail";
     
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"1.png"]];
+    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"5.png"]];
     self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
     [self.view addSubview:self.imageView];
     
-    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,40+ 40+(screenHeight/4), screenWidth, 40)];
-    pickerToolbar.barStyle = UIBarStyleDefault;
-    [pickerToolbar sizeToFit];
-    //pickerToolbar.backgroundColor = [UIColor clearColor];
-    NSMutableArray *barItems = [[NSMutableArray alloc] init];
+    UILabel *totalKM = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth/8,40+10+ 40+(screenHeight/4), screenWidth/2, 25)];
+    totalKM.text = @"Distance: 10km";
+    [self.view addSubview:totalKM];
+    
+    UILabel *totalH = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth/2 +20,40+10+ 40+(screenHeight/4), screenWidth/3, 25)];
+    totalH.text = @"Duration: 3h";
+    [self.view addSubview:totalH];
+    
+//    UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 40+(screenHeight/4), screenWidth, 40)];
+//    pickerToolbar.barStyle = UIBarStyleDefault;
+//    [pickerToolbar sizeToFit];
+//    //pickerToolbar.backgroundColor = [UIColor clearColor];
+//    NSMutableArray *barItems = [[NSMutableArray alloc] init];
+//    
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    [barItems addObject:flexSpace];
-    UIBarButtonItem *wikiButton = [[UIBarButtonItem alloc] initWithTitle:@"Wiki" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
-    [barItems addObject:wikiButton];
-    flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    [barItems addObject:flexSpace];
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
-    [barItems addObject:saveButton];
-    flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    [barItems addObject:flexSpace];
-
-    [pickerToolbar setItems:barItems animated:YES];
-    [self.view addSubview:pickerToolbar];
+//    [barItems addObject:flexSpace];
+//    
+//    UILabel *totalKM = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+//    totalKM.text = @"Total KM: 5";
+//    [barItems addObject:totalKM];
+//    
+//    UIBarButtonItem *wikiButton = [[UIBarButtonItem alloc] initWithTitle:@"Wiki" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+//    [barItems addObject:wikiButton];
+//    
+//    
+//    flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    [barItems addObject:flexSpace];
+//    
+//    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+//    [barItems addObject:saveButton];
+//    
+//    flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    [barItems addObject:flexSpace];
+//    
+//    //    flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    //    [barItems addObject:flexSpace];
+//    
+//    [pickerToolbar setItems:barItems animated:YES];
+//    [self.view addSubview:pickerToolbar];
     
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 40+80+(screenHeight/4), screenWidth, screenHeight/2)];
     self.textView.text = @"This is the description.";
     [self.view addSubview:self.textView];
     
     UIToolbar *downToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,screenHeight-40, screenWidth, 40)];
-    downToolbar.barStyle = UIBarStyleDefault;
-    [downToolbar sizeToFit];
+    //pickerToolbar.barStyle = UIBarStyleDefault;
+    //[pickerToolbar sizeToFit];
     //pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems2 = [[NSMutableArray alloc] init];
     
     UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithTitle:@"<" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
     [barItems2 addObject:prevButton];
+    
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
+    
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
+    
     UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@">" style:UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
     [barItems2 addObject:nextButton];
-
+    
     [downToolbar setItems:barItems2 animated:YES];
     [self.view addSubview:downToolbar];
 }
@@ -77,6 +101,7 @@
 - (IBAction)mapClicked:(id)sender{
     MapViewController *mapView = [[MapViewController alloc] init];
     [self.navigationController pushViewController:mapView animated:YES];
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
