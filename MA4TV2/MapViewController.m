@@ -40,19 +40,19 @@
     // Add an annotation
     MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
     point.coordinate = userLocation.coordinate;
-    point.title = @"Where am I?";
-    point.subtitle = @"I'm here!!!";
+    point.title = @"You are here!";
+    //point.subtitle = @"Yes, you are!";
     
     // Add an new annotation
-    MKPointAnnotation *point2 = [[MKPointAnnotation alloc] init];
-    CLLocationCoordinate2D zoomLocation;
-    zoomLocation.latitude = userLocation.coordinate.latitude+1;
-    zoomLocation.longitude= userLocation.coordinate.longitude+1;
-    point2.coordinate = zoomLocation;
-    point2.title = @"New point";
-    point2.subtitle = @"I'm here!!!";
-
-    [self.mapView addAnnotation:point2];
+//    MKPointAnnotation *point2 = [[MKPointAnnotation alloc] init];
+//    CLLocationCoordinate2D zoomLocation;
+//    zoomLocation.latitude = userLocation.coordinate.latitude+1;
+//    zoomLocation.longitude= userLocation.coordinate.longitude+1;
+//    point2.coordinate = zoomLocation;
+//    point2.title = @"New point";
+//    point2.subtitle = @"I'm here!!!";
+//
+//    [self.mapView addAnnotation:point2];
     [self.mapView addAnnotation:point];
 }
 

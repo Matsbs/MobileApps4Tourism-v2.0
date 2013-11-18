@@ -82,7 +82,7 @@
     //pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems2 = [[NSMutableArray alloc] init];
     
-    UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithTitle:@"<" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+    UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithTitle:@"<" style: UIBarButtonItemStylePlain target:self action:nil];
     [barItems2 addObject:prevButton];
     
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -91,7 +91,7 @@
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
     
-    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@">" style:UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@">" style:UIBarButtonItemStylePlain target:self action:nil];
     [barItems2 addObject:nextButton];
     
     [downToolbar setItems:barItems2 animated:YES];

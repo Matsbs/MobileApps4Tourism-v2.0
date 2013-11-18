@@ -10,10 +10,22 @@
 #import "POIViewController.h"
 #import "FavouritesViewController.h"
 #import "TourViewController.h"
+#import <sqlite3.h>
+#import "TourCategory.h"
+#import "POICategory.h"
+#import "Tour.h"
+#import "POI.h"
+#import "Favorite.h"
+#import "GeoPointTour.h"
 
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) NSString *databasePath;
+@property (nonatomic) sqlite3 *TOURISMDB;
+//@property (nonatomic, retain) TourCategory *tourCategory;
+
+
 
 @end

@@ -17,6 +17,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self initDatabase];
+    [self populateDatabase];
+    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
@@ -41,11 +45,11 @@
     [barItems addObject:mapButton];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
        [barItems addObject:flexSpace];
-    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithTitle:@"Search" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithTitle:@"Search" style: UIBarButtonItemStylePlain target:self action:nil];
     [barItems addObject:searchButton];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
-    UIBarButtonItem *syncButton = [[UIBarButtonItem alloc] initWithTitle:@"Sync" style: UIBarButtonItemStylePlain target:self action:@selector(resignPicker:)];
+    UIBarButtonItem *syncButton = [[UIBarButtonItem alloc] initWithTitle:@"Sync" style: UIBarButtonItemStylePlain target:self action:nil];
     [barItems addObject:syncButton];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
@@ -62,7 +66,224 @@
     self.tableView.sectionHeaderHeight = 0.0;
     self.tableView.sectionFooterHeight = 0.0;
     [self.view addSubview:self.tableView];
+    
+//    select p.name, p.image, gt.position
+//    from tours as t
+//    inner join geopointtour as gt
+//    on gt.tour = t.name
+//    inner join POIS as p
+//    on gt.poi = p.name
+//    where t.name = ''
+    
 }
+
+- (void)populateDatabase{
+    TourCategory *tourCategory = [[TourCategory alloc] init];
+    tourCategory.name = @"Lisbon Tours";
+    tourCategory.image = @"lisbon_tours.jpeg";
+    [self insertTourCategory: tourCategory];
+    TourCategory *tourCategory2 = [[TourCategory alloc] init];
+    tourCategory2.name = @"Sintra Tours";
+    tourCategory2.image = @"sintra_tours.jpeg";
+    [self insertTourCategory: tourCategory2];
+    Tour *tour = [[Tour alloc]init];
+    tour.name = @"Lisbon Tours";
+    tour.description = @"Some desc";
+    tour.totalHours = 2.5;
+    tour.totalKms = 3.0;
+    [self insertTour:tour];
+    POICategory *poiCategory = [[POICategory alloc] init];
+    poiCategory.name = @"Food and Drinks";
+    poiCategory.image = @"image";
+    [self insertPOICategory:poiCategory];
+    POI *poi = [[POI alloc] init];
+    poi.name = @"Sintra";
+    poi.description = @"description of sintra";
+    poi.image = @"some image";
+    poi.latitude = 33.44;
+    poi.longitude = 22.33;
+    poi.rating = 5.0;
+    [self insertPOI:poi];
+
+}
+
+- (void)initDatabase{
+    NSString *docsDir;
+    NSArray *dirPaths;
+    // Get the documents directory
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = dirPaths[0];
+    // Build the path to the database file
+    _databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+    //NSFileManager *filemgr = [NSFileManager defaultManager];
+    //if ([filemgr fileExistsAtPath: _databasePath ] == NO)
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        char *errMsg;
+        const char *sql_stmt ="CREATE TABLE IF NOT EXISTS TOURCATEGORIES (NAME TEXT PRIMARY KEY, IMAGE TEXT)";
+        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
+            //_status.text = @"Failed to create table";
+        }
+        sql_stmt = "CREATE TABLE IF NOT EXISTS CATEGORIES (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, IMAGE TEXT)";
+        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
+            //_status.text = @"Failed to create table";
+        }
+        sql_stmt = "CREATE TABLE IF NOT EXISTS FAVOURITES (NAME TEXT PRIMARY KEY)";
+        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
+            //_status.text = @"Failed to create table";
+        }
+        sql_stmt = "CREATE TABLE IF NOT EXISTS POIS (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, IMAGE TEXT, URL TEXT, LATITUDE DOUBLE, LONGITUDE DOUBLE, RATING DOUBLE, FAVOURITE TEXT, CATEGORY TEXT, FOREIGN KEY (FAVOURITE) REFERENCES FAVOURITES(NAME), FOREIGN KEY(CATEGORY) REFERENCES CATEGORIES(NAME))";
+        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
+            //_status.text = @"Failed to create table";
+        }
+        sql_stmt = "CREATE TABLE IF NOT EXISTS TOURS (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, IMAGE TEXT, TOTALHOURS DOUBLE, TOTALKMS DOUBLE, TOURCATEGORY TEXT, FOREIGN KEY(TOURCATEGORY) REFERENCES TOURCATEGORYS(NAME))";
+        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
+            //_status.text = @"Failed to create table";
+        }
+        sql_stmt = "CREATE TABLE IF NOT EXISTS GEOPOINTTOUR (LATITUDE DOUBLE, LONGITUDE DOUBLE, POSITION INTEGER,POI TEXT,TOUR TEXT, FOREIGN KEY(POI) REFERENCES POIS(NAME), FOREIGN KEY(TOUR) REFERENCES TOURS(NAME))";
+        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
+            //_status.text = @"Failed to create table";
+        }
+        sqlite3_close(_TOURISMDB);
+    } else {
+        //_status.text = @"Failed to open/create database";
+    }
+}
+
+- (void)insertTourCategory:(TourCategory *)tourCategory{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO TOURCATEGORIES (name, image) VALUES (\"%@\", \"%@\")", tourCategory.name, tourCategory.image];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"Tour category inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+- (void)insertTour:(Tour *)tour{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO TOURS (name, description, image, totalhours, totalkms) VALUES (\"%@\", \"%@\", \"%@\", \"%f\", \"%f\")", tour.name, tour.description, tour.image, tour.totalHours, tour.totalKms];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"Tour inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+- (void)insertPOICategory:(POICategory *)poiCategory{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CATEGORIES (name, image) VALUES (\"%@\", \"%@\")", poiCategory.name, poiCategory.image];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"POI category inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+- (void)insertPOI:(POI *)poi{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO POIS (name, description, image, url, latitude, longitude, rating) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%f\", \"%f\", \"%f\")", poi.name, poi.description, poi.image, poi.url, poi.latitude, poi.latitude, poi.rating];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"POI inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+- (void)insertFavourite:(Favorite *)favorite{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FAVORITES (name) VALUES (\"%@\")", favorite.name];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"Favorite inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+- (void)insertGeoPointTour:(GeoPointTour *)geoPointTour{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO GEOPOINTTOURS (latitude, longitude, position) VALUES (\"%f\", \"%f\", \"%d\")", geoPointTour.latitude, geoPointTour.longitude, geoPointTour.position];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"Favorite inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+//- (void) findContact:(id)sender{
+//    const char *dbpath = [_databasePath UTF8String];
+//    sqlite3_stmt *statement;
+//    if (sqlite3_open(dbpath, &_ma4tDB) == SQLITE_OK){
+//        NSString *querySQL = [NSString stringWithFormat:
+//                              @"SELECT address, phone FROM contacts WHERE name=\"%@\"",
+//                              @"Name"];
+//        const char *query_stmt = [querySQL UTF8String];
+//        if (sqlite3_prepare_v2(_ma4tDB,
+//                               query_stmt, -1, &statement, NULL) == SQLITE_OK){
+//            if (sqlite3_step(statement) == SQLITE_ROW){
+//                NSString *addressField = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+//                //_address.text = addressField;
+//                NSString *phoneField = [[NSString alloc]initWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
+//                //_phone.text = phoneField;
+//                //_status.text = @"Match found";
+//            } else {
+//                //_status.text = @"Match not found";
+//                //_address.text = @"";
+//                //_phone.text = @"";
+//            }
+//            sqlite3_finalize(statement);
+//        }
+//        sqlite3_close(_ma4tDB);
+//    }
+//}
 
 //- (void)addItemViewController:(NewTaskViewController *)controller didFinishEnteringItem:(Task *)item
 //{

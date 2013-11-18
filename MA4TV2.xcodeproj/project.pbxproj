@@ -13,6 +13,12 @@
 		4E007633182CF0E0003CA4C4 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E007632182CF0E0003CA4C4 /* 1.png */; };
 		4E007635182CF103003CA4C4 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E007634182CF103003CA4C4 /* 3.png */; };
 		4E007637182CF1BE003CA4C4 /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E007636182CF1BE003CA4C4 /* 4.png */; };
+		4E3B7FC7183A3EC500F9F969 /* TourCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FC6183A3EC500F9F969 /* TourCategory.m */; };
+		4E3B7FCA183AA1F900F9F969 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FC9183AA1F900F9F969 /* POI.m */; };
+		4E3B7FD3183AA82A00F9F969 /* POICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD2183AA82A00F9F969 /* POICategory.m */; };
+		4E3B7FD6183AA90400F9F969 /* Tour.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD5183AA90400F9F969 /* Tour.m */; };
+		4E3B7FD9183AADF900F9F969 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD8183AADF900F9F969 /* Favorite.m */; };
+		4E3B7FDC183AAEBD00F9F969 /* GeoPointTour.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */; };
 		4EC9541F182BBD020065C93D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC9541E182BBD020065C93D /* Foundation.framework */; };
 		4EC95421182BBD020065C93D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95420182BBD020065C93D /* CoreGraphics.framework */; };
 		4EC95423182BBD020065C93D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95422182BBD020065C93D /* UIKit.framework */; };
@@ -32,6 +38,7 @@
 		4EC95487182BDDE90065C93D /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC95485182BDDE90065C93D /* MapViewController.m */; };
 		4EC95489182BDE5E0065C93D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95488182BDE5E0065C93D /* MapKit.framework */; };
 		4EC9548B182BDE850065C93D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC9548A182BDE850065C93D /* CoreLocation.framework */; };
+		4ED6E9581834ED8C00AA56F1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ED6E9571834ED8C00AA56F1 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +61,18 @@
 		4E007632182CF0E0003CA4C4 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 		4E007634182CF103003CA4C4 /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		4E007636182CF1BE003CA4C4 /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.png; sourceTree = "<group>"; };
+		4E3B7FC5183A3EC500F9F969 /* TourCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourCategory.h; sourceTree = "<group>"; };
+		4E3B7FC6183A3EC500F9F969 /* TourCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourCategory.m; sourceTree = "<group>"; };
+		4E3B7FC8183AA1F900F9F969 /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POI.h; sourceTree = "<group>"; };
+		4E3B7FC9183AA1F900F9F969 /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POI.m; sourceTree = "<group>"; };
+		4E3B7FD1183AA82A00F9F969 /* POICategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POICategory.h; path = ../POICategory.h; sourceTree = "<group>"; };
+		4E3B7FD2183AA82A00F9F969 /* POICategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POICategory.m; path = ../POICategory.m; sourceTree = "<group>"; };
+		4E3B7FD4183AA90400F9F969 /* Tour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tour.h; sourceTree = "<group>"; };
+		4E3B7FD5183AA90400F9F969 /* Tour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tour.m; sourceTree = "<group>"; };
+		4E3B7FD7183AADF900F9F969 /* Favorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Favorite.h; sourceTree = "<group>"; };
+		4E3B7FD8183AADF900F9F969 /* Favorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favorite.m; sourceTree = "<group>"; };
+		4E3B7FDA183AAEBD00F9F969 /* GeoPointTour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoPointTour.h; sourceTree = "<group>"; };
+		4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoPointTour.m; sourceTree = "<group>"; };
 		4EC9541B182BBD020065C93D /* MA4TV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MA4TV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC9541E182BBD020065C93D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4EC95420182BBD020065C93D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -81,6 +100,7 @@
 		4EC95486182BDDE90065C93D /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		4EC95488182BDE5E0065C93D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4EC9548A182BDE850065C93D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		4ED6E9571834ED8C00AA56F1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ED6E9581834ED8C00AA56F1 /* libsqlite3.dylib in Frameworks */,
 				4EC9548B182BDE850065C93D /* CoreLocation.framework in Frameworks */,
 				4EC95489182BDE5E0065C93D /* MapKit.framework in Frameworks */,
 				4EC95421182BBD020065C93D /* CoreGraphics.framework in Frameworks */,
@@ -142,6 +163,7 @@
 		4EC9541D182BBD020065C93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4ED6E9571834ED8C00AA56F1 /* libsqlite3.dylib */,
 				4EC9548A182BDE850065C93D /* CoreLocation.framework */,
 				4EC95488182BDE5E0065C93D /* MapKit.framework */,
 				4EC9541E182BBD020065C93D /* Foundation.framework */,
@@ -160,8 +182,20 @@
 				4EC9542E182BBD020065C93D /* MA4TV2AppDelegate.m */,
 				4EC95474182BBD4D0065C93D /* MainViewController.h */,
 				4EC95468182BBD4D0065C93D /* MainViewController.m */,
+				4E3B7FDA183AAEBD00F9F969 /* GeoPointTour.h */,
+				4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */,
+				4E3B7FD7183AADF900F9F969 /* Favorite.h */,
+				4E3B7FD8183AADF900F9F969 /* Favorite.m */,
+				4E3B7FD4183AA90400F9F969 /* Tour.h */,
+				4E3B7FD5183AA90400F9F969 /* Tour.m */,
 				4EC95482182BDBB20065C93D /* POIViewController.h */,
 				4EC95483182BDBB20065C93D /* POIViewController.m */,
+				4E3B7FD1183AA82A00F9F969 /* POICategory.h */,
+				4E3B7FD2183AA82A00F9F969 /* POICategory.m */,
+				4E3B7FC5183A3EC500F9F969 /* TourCategory.h */,
+				4E3B7FC6183A3EC500F9F969 /* TourCategory.m */,
+				4E3B7FC8183AA1F900F9F969 /* POI.h */,
+				4E3B7FC9183AA1F900F9F969 /* POI.m */,
 				4EC9547F182BD3440065C93D /* POIDetailViewController.h */,
 				4EC95480182BD3440065C93D /* POIDetailViewController.m */,
 				4E00762C182CE724003CA4C4 /* TourViewController.h */,
@@ -255,6 +289,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Mats Sandvoll";
 				TargetAttributes = {
+					4EC9541A182BBD020065C93D = {
+						DevelopmentTeam = 75WP5Y65NV;
+					};
 					4EC95435182BBD020065C93D = {
 						TestTargetID = 4EC9541A182BBD020065C93D;
 					};
@@ -307,15 +344,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E3B7FD6183AA90400F9F969 /* Tour.m in Sources */,
+				4E3B7FCA183AA1F900F9F969 /* POI.m in Sources */,
 				4E007631182CE86C003CA4C4 /* TourDetailViewController.m in Sources */,
+				4E3B7FD3183AA82A00F9F969 /* POICategory.m in Sources */,
 				4EC95484182BDBB20065C93D /* POIViewController.m in Sources */,
 				4EC95481182BD3440065C93D /* POIDetailViewController.m in Sources */,
 				4EC95487182BDDE90065C93D /* MapViewController.m in Sources */,
+				4E3B7FD9183AADF900F9F969 /* Favorite.m in Sources */,
 				4EC9542F182BBD020065C93D /* MA4TV2AppDelegate.m in Sources */,
+				4E3B7FDC183AAEBD00F9F969 /* GeoPointTour.m in Sources */,
 				4E00762E182CE724003CA4C4 /* TourViewController.m in Sources */,
 				4EC95477182BBD4D0065C93D /* MainViewController.m in Sources */,
 				4E00762B182CD97F003CA4C4 /* FavouritesViewController.m in Sources */,
 				4EC9542B182BBD020065C93D /* main.m in Sources */,
+				4E3B7FC7183A3EC500F9F969 /* TourCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MA4TV2/MA4TV2-Prefix.pch";
 				INFOPLIST_FILE = "MA4TV2/MA4TV2-Info.plist";
@@ -447,6 +491,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MA4TV2/MA4TV2-Prefix.pch";
 				INFOPLIST_FILE = "MA4TV2/MA4TV2-Info.plist";
