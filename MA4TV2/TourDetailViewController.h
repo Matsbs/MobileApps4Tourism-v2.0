@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "MapViewController.h"
+#import "Tour.h"
+#import "DBManager.h"
 
-@interface TourDetailViewController : UIViewController
+@interface TourDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UITextView *textView;
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
+@property (nonatomic, retain) Tour *tour;
+@property (nonatomic, retain) NSMutableArray *POIs;
 
 @end

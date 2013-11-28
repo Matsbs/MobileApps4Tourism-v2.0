@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "TourDetailViewController.h"
+#import "dbManager.h"
 
 @interface TourViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) NSMutableArray *tours;
+@property (nonatomic, retain) NSString *tourCategory;
+
 
 @end

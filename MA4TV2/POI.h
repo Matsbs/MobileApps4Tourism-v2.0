@@ -14,6 +14,7 @@
 @property (nonatomic, retain) NSString *description;
 @property (nonatomic, retain) NSString *image;
 @property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSString *category;
 @property double latitude;
 @property double longitude;
 @property double rating;

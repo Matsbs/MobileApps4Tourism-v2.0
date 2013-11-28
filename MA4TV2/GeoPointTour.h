@@ -10,8 +10,8 @@
 
 @interface GeoPointTour : NSObject
 
-@property double latitude;
-@property double longitude;
 @property int position;
+@property (nonatomic, retain) NSString *tour;
+@property (nonatomic, retain) NSString *poi;
 
 @end

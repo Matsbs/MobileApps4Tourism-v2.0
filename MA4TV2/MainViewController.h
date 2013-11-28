@@ -17,13 +17,17 @@
 #import "POI.h"
 #import "Favorite.h"
 #import "GeoPointTour.h"
+#import "DBManager.h"
 
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) NSString *databasePath;
-@property (nonatomic) sqlite3 *TOURISMDB;
+//@property (strong, nonatomic) NSString *databasePath;
+//@property (nonatomic) sqlite3 *TOURISMDB;
+@property (strong, nonatomic) NSMutableArray *tourCategories;
+@property (strong, nonatomic) NSMutableArray *poiCategories;
+
 //@property (nonatomic, retain) TourCategory *tourCategory;
 
 

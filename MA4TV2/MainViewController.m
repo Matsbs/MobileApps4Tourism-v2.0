@@ -17,21 +17,62 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    DBManager *dbManager = [[DBManager alloc]init];
+    [dbManager initDatabase];
+    [dbManager getAllTours];
     
-    [self initDatabase];
-    [self populateDatabase];
+    
+    
+    self.tourCategories = [[NSMutableArray alloc] initWithArray:[dbManager getAllTourCategories]];
+    self.poiCategories = [[NSMutableArray alloc] initWithArray:[dbManager getAllPOICategories]];
+    
+    //NSLog(@"1 %@", [(TourCategory*)[self.tourCategories objectAtIndex:0] name]);
+    //NSLog(@"2 %@", [self.tourCategories objectAtIndex:1]);
+    
+//    NSArray *POIs =[[NSArray alloc]initWithArray:[self getAllPOIs]];
+//    POI *test = [[POI alloc]init];
+//    POI *test2 = [[POI alloc]init];
+//    test = [POIs objectAtIndex:0];
+//    test2 = [POIs objectAtIndex:1];
+//    NSLog(@"first poi name %@, description %@, image %@, latitude %f", test.name, test.description, test.image, test.latitude);
+//     NSLog(@"first poi name %@, description %@, image %@, latitude %f", test2.name, test2.description, test2.image, test2.latitude);
+//    
+//    POI *new = [[POI alloc] init];
+//    new = [self getPIObyName:@""];
+//    NSLog(@"POI: %@",new.name);
+    
+//    NSArray *POIsbyTourName =[[NSArray alloc]initWithArray:[self getPOIsbyTourName:@"Lisbon Highlight Tours"]];
+//    //POI *some = [[POI alloc] init];
+//    //some = [POIsbyTourName objectAtIndex:0];
+//    NSLog(@"size: %lu",(unsigned long)[POIsbyTourName count]);
+//    
+//    NSArray *poi = [[NSArray alloc] initWithArray:[self seachPOIs:@"Sintra" : @"Food and Drinks"]];
+    //NSLog(@"size p: %lu",(unsigned long)[poi count]);
+    
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     
     self.view.backgroundColor =  [UIColor whiteColor];
-    self.title = @"Lisbon";
+    self.title = @"Tourism Advisor";
     
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"4.png"]];
+    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lisbon_wallpaper.jpg"]];
     self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
     self.imageView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.imageView];
+    
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,25+80+(screenHeight/4), screenWidth, screenHeight-(25+80+(screenHeight/4))) style:UITableViewStyleGrouped];
+    self.tableView.rowHeight = 50;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.sectionHeaderHeight = 0.0;
+    self.tableView.sectionFooterHeight = 0.0;
+    self.tableView.scrollEnabled = YES;
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.tableView];
     
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,40+ 40+(screenHeight/4), screenWidth, 40)];
     pickerToolbar.barStyle = UIBarStyleDefault;
@@ -59,204 +100,12 @@
     [pickerToolbar setItems:barItems animated:YES];
     [self.view addSubview:pickerToolbar];
    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,40+80+(screenHeight/4), screenWidth, screenHeight) style:UITableViewStyleGrouped];
-    self.tableView.rowHeight = 40;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.sectionHeaderHeight = 0.0;
-    self.tableView.sectionFooterHeight = 0.0;
-    [self.view addSubview:self.tableView];
     
-//    select p.name, p.image, gt.position
-//    from tours as t
-//    inner join geopointtour as gt
-//    on gt.tour = t.name
-//    inner join POIS as p
-//    on gt.poi = p.name
-//    where t.name = ''
     
 }
 
-- (void)populateDatabase{
-    TourCategory *tourCategory = [[TourCategory alloc] init];
-    tourCategory.name = @"Lisbon Tours";
-    tourCategory.image = @"lisbon_tours.jpeg";
-    [self insertTourCategory: tourCategory];
-    TourCategory *tourCategory2 = [[TourCategory alloc] init];
-    tourCategory2.name = @"Sintra Tours";
-    tourCategory2.image = @"sintra_tours.jpeg";
-    [self insertTourCategory: tourCategory2];
-    Tour *tour = [[Tour alloc]init];
-    tour.name = @"Lisbon Tours";
-    tour.description = @"Some desc";
-    tour.totalHours = 2.5;
-    tour.totalKms = 3.0;
-    [self insertTour:tour];
-    POICategory *poiCategory = [[POICategory alloc] init];
-    poiCategory.name = @"Food and Drinks";
-    poiCategory.image = @"image";
-    [self insertPOICategory:poiCategory];
-    POI *poi = [[POI alloc] init];
-    poi.name = @"Sintra";
-    poi.description = @"description of sintra";
-    poi.image = @"some image";
-    poi.latitude = 33.44;
-    poi.longitude = 22.33;
-    poi.rating = 5.0;
-    [self insertPOI:poi];
 
-}
 
-- (void)initDatabase{
-    NSString *docsDir;
-    NSArray *dirPaths;
-    // Get the documents directory
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    // Build the path to the database file
-    _databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    //NSFileManager *filemgr = [NSFileManager defaultManager];
-    //if ([filemgr fileExistsAtPath: _databasePath ] == NO)
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        char *errMsg;
-        const char *sql_stmt ="CREATE TABLE IF NOT EXISTS TOURCATEGORIES (NAME TEXT PRIMARY KEY, IMAGE TEXT)";
-        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
-            //_status.text = @"Failed to create table";
-        }
-        sql_stmt = "CREATE TABLE IF NOT EXISTS CATEGORIES (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, IMAGE TEXT)";
-        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
-            //_status.text = @"Failed to create table";
-        }
-        sql_stmt = "CREATE TABLE IF NOT EXISTS FAVOURITES (NAME TEXT PRIMARY KEY)";
-        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
-            //_status.text = @"Failed to create table";
-        }
-        sql_stmt = "CREATE TABLE IF NOT EXISTS POIS (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, IMAGE TEXT, URL TEXT, LATITUDE DOUBLE, LONGITUDE DOUBLE, RATING DOUBLE, FAVOURITE TEXT, CATEGORY TEXT, FOREIGN KEY (FAVOURITE) REFERENCES FAVOURITES(NAME), FOREIGN KEY(CATEGORY) REFERENCES CATEGORIES(NAME))";
-        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
-            //_status.text = @"Failed to create table";
-        }
-        sql_stmt = "CREATE TABLE IF NOT EXISTS TOURS (NAME TEXT PRIMARY KEY, DESCRIPTION TEXT, IMAGE TEXT, TOTALHOURS DOUBLE, TOTALKMS DOUBLE, TOURCATEGORY TEXT, FOREIGN KEY(TOURCATEGORY) REFERENCES TOURCATEGORYS(NAME))";
-        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
-            //_status.text = @"Failed to create table";
-        }
-        sql_stmt = "CREATE TABLE IF NOT EXISTS GEOPOINTTOUR (LATITUDE DOUBLE, LONGITUDE DOUBLE, POSITION INTEGER,POI TEXT,TOUR TEXT, FOREIGN KEY(POI) REFERENCES POIS(NAME), FOREIGN KEY(TOUR) REFERENCES TOURS(NAME))";
-        if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
-            //_status.text = @"Failed to create table";
-        }
-        sqlite3_close(_TOURISMDB);
-    } else {
-        //_status.text = @"Failed to open/create database";
-    }
-}
-
-- (void)insertTourCategory:(TourCategory *)tourCategory{
-    sqlite3_stmt *statement;
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO TOURCATEGORIES (name, image) VALUES (\"%@\", \"%@\")", tourCategory.name, tourCategory.image];
-        const char *insert_stmt = [insertSQL UTF8String];
-        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"Tour category inserted");
-        }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
-        }
-        sqlite3_reset(statement);
-        sqlite3_finalize(statement);
-        sqlite3_close(_TOURISMDB);
-    }
-}
-
-- (void)insertTour:(Tour *)tour{
-    sqlite3_stmt *statement;
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO TOURS (name, description, image, totalhours, totalkms) VALUES (\"%@\", \"%@\", \"%@\", \"%f\", \"%f\")", tour.name, tour.description, tour.image, tour.totalHours, tour.totalKms];
-        const char *insert_stmt = [insertSQL UTF8String];
-        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"Tour inserted");
-        }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
-        }
-        sqlite3_reset(statement);
-        sqlite3_finalize(statement);
-        sqlite3_close(_TOURISMDB);
-    }
-}
-
-- (void)insertPOICategory:(POICategory *)poiCategory{
-    sqlite3_stmt *statement;
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO CATEGORIES (name, image) VALUES (\"%@\", \"%@\")", poiCategory.name, poiCategory.image];
-        const char *insert_stmt = [insertSQL UTF8String];
-        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"POI category inserted");
-        }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
-        }
-        sqlite3_reset(statement);
-        sqlite3_finalize(statement);
-        sqlite3_close(_TOURISMDB);
-    }
-}
-
-- (void)insertPOI:(POI *)poi{
-    sqlite3_stmt *statement;
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO POIS (name, description, image, url, latitude, longitude, rating) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%f\", \"%f\", \"%f\")", poi.name, poi.description, poi.image, poi.url, poi.latitude, poi.latitude, poi.rating];
-        const char *insert_stmt = [insertSQL UTF8String];
-        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"POI inserted");
-        }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
-        }
-        sqlite3_reset(statement);
-        sqlite3_finalize(statement);
-        sqlite3_close(_TOURISMDB);
-    }
-}
-
-- (void)insertFavourite:(Favorite *)favorite{
-    sqlite3_stmt *statement;
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FAVORITES (name) VALUES (\"%@\")", favorite.name];
-        const char *insert_stmt = [insertSQL UTF8String];
-        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"Favorite inserted");
-        }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
-        }
-        sqlite3_reset(statement);
-        sqlite3_finalize(statement);
-        sqlite3_close(_TOURISMDB);
-    }
-}
-
-- (void)insertGeoPointTour:(GeoPointTour *)geoPointTour{
-    sqlite3_stmt *statement;
-    const char *dbpath = [_databasePath UTF8String];
-    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO GEOPOINTTOURS (latitude, longitude, position) VALUES (\"%f\", \"%f\", \"%d\")", geoPointTour.latitude, geoPointTour.longitude, geoPointTour.position];
-        const char *insert_stmt = [insertSQL UTF8String];
-        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"Favorite inserted");
-        }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
-        }
-        sqlite3_reset(statement);
-        sqlite3_finalize(statement);
-        sqlite3_close(_TOURISMDB);
-    }
-}
 
 //- (void) findContact:(id)sender{
 //    const char *dbpath = [_databasePath UTF8String];
@@ -315,9 +164,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section==0){
-        return 1;
+        return [self.tourCategories count];
     }else{
-        return 2;
+        return [self.poiCategories count];
     }
 }
 
@@ -328,15 +177,25 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     if (indexPath.section == 0 ) {
-//        self.task= [self.taskArray objectAtIndex:indexPath.row];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.text = @"Tour1";
-        cell.imageView.image = [UIImage imageNamed:@"5.png"];
+        cell.textLabel.text = [(TourCategory*)[self.tourCategories objectAtIndex:indexPath.row] name];
+        [cell setIndentationWidth:64];
+        [cell setIndentationLevel:1];
+        UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60,tableView.rowHeight-10)];
+        imgView.backgroundColor=[UIColor clearColor];
+        [imgView.layer setMasksToBounds:YES];
+        [imgView setImage:[UIImage imageNamed:[(TourCategory*)[self.tourCategories objectAtIndex:indexPath.row] image]]];
+        [cell.contentView addSubview:imgView];
     } else {
-        cell.textLabel.text = @"Category1";
-        cell.imageView.image = [UIImage imageNamed:@"1.png"];
-        //cell.textLabel.textColor = [UIColor lightGrayColor];
-        cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = [(POICategory*)[self.poiCategories objectAtIndex:indexPath.row] name];
+        [cell setIndentationWidth:64];
+        [cell setIndentationLevel:1];
+        UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60,tableView.rowHeight-10)];
+        imgView.backgroundColor=[UIColor clearColor];
+        [imgView.layer setMasksToBounds:YES];
+        [imgView setImage:[UIImage imageNamed:[(POICategory*)[self.poiCategories objectAtIndex:indexPath.row] image]]];
+        [cell.contentView addSubview:imgView];
     }
     return cell;
 }
@@ -345,6 +204,8 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section==0) {
         TourViewController *tourView = [[TourViewController alloc]init];
+        tourView.tourCategory = [(TourCategory*)[self.tourCategories objectAtIndex:indexPath.row] name];
+        //tourView.databasePath = self.databasePath;
         [self.navigationController pushViewController:tourView animated:YES];
     }else{
         POIViewController *poiView = [[POIViewController alloc] init];

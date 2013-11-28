@@ -18,6 +18,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    DBManager *dbManager = [[DBManager alloc]init];
+    NSString *docsDir;
+    NSArray *dirPaths;
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = dirPaths[0];
+    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+    
+    self.poi = [[POI alloc] init];
+    self.poi = [dbManager getPOIbyName:self.poiName];
+    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
@@ -27,6 +38,19 @@
     self.mapView.scrollEnabled = YES;
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
+    
+    CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 800, 800);
+    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+    
+    // Add an annotation
+    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+    //CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+    point.coordinate = coord;
+    point.title = self.poi.name;
+    point.subtitle = self.poi.description;
+    [self.mapView addAnnotation:point];
+    
     
     [self.view addSubview:self.mapView];
     
@@ -39,9 +63,20 @@
     
     // Add an annotation
     MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-    point.coordinate = userLocation.coordinate;
+    CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+    point.coordinate = coord;
     point.title = @"You are here!";
+    
+    NSLog(@"Lat: %f", self.poi.latitude);
+    [self.mapView addAnnotation:point];
     //point.subtitle = @"Yes, you are!";
+    
+    
+    //MKCoordinateSpan span = {.latitudeDelta =  0.2, .longitudeDelta =  0.2};
+    //MKCoordinateRegion test = {coord, span};
+    
+    //[mapView setRegion:test];
+    
     
     // Add an new annotation
 //    MKPointAnnotation *point2 = [[MKPointAnnotation alloc] init];
@@ -67,9 +102,10 @@
         [pinView setPinColor:MKPinAnnotationColorGreen];
         pinView.animatesDrop = YES;
         pinView.canShowCallout = YES;
-        //UIImageView *houseIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"house.png"]];
-        //[houseIconView setFrame:CGRectMake(0, 0, 30, 30)];
-        //pinView.leftCalloutAccessoryView = houseIconView;
+        UIImageView *houseIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"1.png"]];
+        [houseIconView setFrame:CGRectMake(0, 0, 30, 30)];
+        pinView.leftCalloutAccessoryView = houseIconView;
+        pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }
     else{
         pinView.annotation = annotation;
@@ -77,6 +113,11 @@
     return pinView;
 }
 
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+ 
+    NSLog(@"HEI!");
+}
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

@@ -19,6 +19,24 @@
 		4E3B7FD6183AA90400F9F969 /* Tour.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD5183AA90400F9F969 /* Tour.m */; };
 		4E3B7FD9183AADF900F9F969 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD8183AADF900F9F969 /* Favorite.m */; };
 		4E3B7FDC183AAEBD00F9F969 /* GeoPointTour.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */; };
+		4E9B672D1845FA2A00DF74C9 /* lisbon_tours.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B672B1845FA2A00DF74C9 /* lisbon_tours.jpg */; };
+		4E9B672E1845FA2A00DF74C9 /* sintra_tours.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B672C1845FA2A00DF74C9 /* sintra_tours.jpg */; };
+		4E9B67311845FA6100DF74C9 /* lisbon_highlights.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B672F1845FA6100DF74C9 /* lisbon_highlights.jpg */; };
+		4E9B67321845FA6100DF74C9 /* sintra_palaces.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67301845FA6100DF74C9 /* sintra_palaces.jpg */; };
+		4E9B67341845FAA400DF74C9 /* lisbon_belem.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67331845FAA400DF74C9 /* lisbon_belem.jpg */; };
+		4E9B67381845FB4C00DF74C9 /* attraction.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67351845FB4C00DF74C9 /* attraction.png */; };
+		4E9B67391845FB4C00DF74C9 /* food.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67361845FB4C00DF74C9 /* food.gif */; };
+		4E9B673A1845FB4C00DF74C9 /* hotel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67371845FB4C00DF74C9 /* hotel.jpg */; };
+		4E9B673C1845FC6600DF74C9 /* sao_jorge.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B673B1845FC6600DF74C9 /* sao_jorge.jpg */; };
+		4E9B673E1845FD0C00DF74C9 /* se.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B673D1845FD0C00DF74C9 /* se.jpg */; };
+		4E9B67401845FD6200DF74C9 /* rossio.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B673F1845FD6200DF74C9 /* rossio.jpg */; };
+		4E9B67421845FDC300DF74C9 /* gloria.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67411845FDC300DF74C9 /* gloria.jpg */; };
+		4E9B67441845FE4A00DF74C9 /* ist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67431845FE4A00DF74C9 /* ist.jpg */; };
+		4E9B67461845FEA300DF74C9 /* bairro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67451845FEA300DF74C9 /* bairro.jpg */; };
+		4E9B67481846010700DF74C9 /* lisbon_wallpaper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B67471846010700DF74C9 /* lisbon_wallpaper.jpg */; };
+		4E9B674B1846167100DF74C9 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B674A1846167100DF74C9 /* DBManager.m */; };
+		4E9B674D1847459200DF74C9 /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B674C1847459200DF74C9 /* next@2x.png */; };
+		4E9B674F1847485100DF74C9 /* prev@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B674E1847485100DF74C9 /* prev@2x.png */; };
 		4EC9541F182BBD020065C93D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC9541E182BBD020065C93D /* Foundation.framework */; };
 		4EC95421182BBD020065C93D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95420182BBD020065C93D /* CoreGraphics.framework */; };
 		4EC95423182BBD020065C93D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95422182BBD020065C93D /* UIKit.framework */; };
@@ -73,6 +91,25 @@
 		4E3B7FD8183AADF900F9F969 /* Favorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favorite.m; sourceTree = "<group>"; };
 		4E3B7FDA183AAEBD00F9F969 /* GeoPointTour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoPointTour.h; sourceTree = "<group>"; };
 		4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoPointTour.m; sourceTree = "<group>"; };
+		4E9B672B1845FA2A00DF74C9 /* lisbon_tours.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lisbon_tours.jpg; sourceTree = "<group>"; };
+		4E9B672C1845FA2A00DF74C9 /* sintra_tours.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sintra_tours.jpg; sourceTree = "<group>"; };
+		4E9B672F1845FA6100DF74C9 /* lisbon_highlights.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lisbon_highlights.jpg; sourceTree = "<group>"; };
+		4E9B67301845FA6100DF74C9 /* sintra_palaces.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sintra_palaces.jpg; sourceTree = "<group>"; };
+		4E9B67331845FAA400DF74C9 /* lisbon_belem.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lisbon_belem.jpg; sourceTree = "<group>"; };
+		4E9B67351845FB4C00DF74C9 /* attraction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attraction.png; sourceTree = "<group>"; };
+		4E9B67361845FB4C00DF74C9 /* food.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = food.gif; sourceTree = "<group>"; };
+		4E9B67371845FB4C00DF74C9 /* hotel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hotel.jpg; sourceTree = "<group>"; };
+		4E9B673B1845FC6600DF74C9 /* sao_jorge.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sao_jorge.jpg; sourceTree = "<group>"; };
+		4E9B673D1845FD0C00DF74C9 /* se.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = se.jpg; sourceTree = "<group>"; };
+		4E9B673F1845FD6200DF74C9 /* rossio.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = rossio.jpg; sourceTree = "<group>"; };
+		4E9B67411845FDC300DF74C9 /* gloria.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gloria.jpg; sourceTree = "<group>"; };
+		4E9B67431845FE4A00DF74C9 /* ist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ist.jpg; sourceTree = "<group>"; };
+		4E9B67451845FEA300DF74C9 /* bairro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bairro.jpg; sourceTree = "<group>"; };
+		4E9B67471846010700DF74C9 /* lisbon_wallpaper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lisbon_wallpaper.jpg; sourceTree = "<group>"; };
+		4E9B67491846167100DF74C9 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		4E9B674A1846167100DF74C9 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		4E9B674C1847459200DF74C9 /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
+		4E9B674E1847485100DF74C9 /* prev@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prev@2x.png"; sourceTree = "<group>"; };
 		4EC9541B182BBD020065C93D /* MA4TV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MA4TV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC9541E182BBD020065C93D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4EC95420182BBD020065C93D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -133,8 +170,25 @@
 		4E007638182CF34E003CA4C4 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4E9B674C1847459200DF74C9 /* next@2x.png */,
+				4E9B674E1847485100DF74C9 /* prev@2x.png */,
+				4E9B67451845FEA300DF74C9 /* bairro.jpg */,
+				4E9B67431845FE4A00DF74C9 /* ist.jpg */,
+				4E9B673B1845FC6600DF74C9 /* sao_jorge.jpg */,
+				4E9B67351845FB4C00DF74C9 /* attraction.png */,
+				4E9B67361845FB4C00DF74C9 /* food.gif */,
+				4E9B67371845FB4C00DF74C9 /* hotel.jpg */,
+				4E9B67331845FAA400DF74C9 /* lisbon_belem.jpg */,
+				4E9B672F1845FA6100DF74C9 /* lisbon_highlights.jpg */,
+				4E9B67301845FA6100DF74C9 /* sintra_palaces.jpg */,
+				4E9B672B1845FA2A00DF74C9 /* lisbon_tours.jpg */,
+				4E9B672C1845FA2A00DF74C9 /* sintra_tours.jpg */,
+				4E9B67471846010700DF74C9 /* lisbon_wallpaper.jpg */,
+				4E9B673F1845FD6200DF74C9 /* rossio.jpg */,
+				4E9B67411845FDC300DF74C9 /* gloria.jpg */,
 				4E007634182CF103003CA4C4 /* 3.png */,
 				4E007632182CF0E0003CA4C4 /* 1.png */,
+				4E9B673D1845FD0C00DF74C9 /* se.jpg */,
 				4E007636182CF1BE003CA4C4 /* 4.png */,
 				4EC9547D182BBEE70065C93D /* 5.png */,
 			);
@@ -182,6 +236,8 @@
 				4EC9542E182BBD020065C93D /* MA4TV2AppDelegate.m */,
 				4EC95474182BBD4D0065C93D /* MainViewController.h */,
 				4EC95468182BBD4D0065C93D /* MainViewController.m */,
+				4E9B67491846167100DF74C9 /* DBManager.h */,
+				4E9B674A1846167100DF74C9 /* DBManager.m */,
 				4E3B7FDA183AAEBD00F9F969 /* GeoPointTour.h */,
 				4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */,
 				4E3B7FD7183AADF900F9F969 /* Favorite.h */,
@@ -320,12 +376,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E9B67401845FD6200DF74C9 /* rossio.jpg in Resources */,
+				4E9B673C1845FC6600DF74C9 /* sao_jorge.jpg in Resources */,
 				4E007637182CF1BE003CA4C4 /* 4.png in Resources */,
 				4E007635182CF103003CA4C4 /* 3.png in Resources */,
+				4E9B67461845FEA300DF74C9 /* bairro.jpg in Resources */,
 				4EC9547E182BBEE70065C93D /* 5.png in Resources */,
 				4E007633182CF0E0003CA4C4 /* 1.png in Resources */,
+				4E9B674D1847459200DF74C9 /* next@2x.png in Resources */,
+				4E9B67391845FB4C00DF74C9 /* food.gif in Resources */,
+				4E9B67311845FA6100DF74C9 /* lisbon_highlights.jpg in Resources */,
+				4E9B67441845FE4A00DF74C9 /* ist.jpg in Resources */,
+				4E9B672E1845FA2A00DF74C9 /* sintra_tours.jpg in Resources */,
 				4EC95429182BBD020065C93D /* InfoPlist.strings in Resources */,
+				4E9B672D1845FA2A00DF74C9 /* lisbon_tours.jpg in Resources */,
+				4E9B67421845FDC300DF74C9 /* gloria.jpg in Resources */,
+				4E9B674F1847485100DF74C9 /* prev@2x.png in Resources */,
+				4E9B67321845FA6100DF74C9 /* sintra_palaces.jpg in Resources */,
+				4E9B673A1845FB4C00DF74C9 /* hotel.jpg in Resources */,
 				4EC95431182BBD020065C93D /* Images.xcassets in Resources */,
+				4E9B673E1845FD0C00DF74C9 /* se.jpg in Resources */,
+				4E9B67381845FB4C00DF74C9 /* attraction.png in Resources */,
+				4E9B67481846010700DF74C9 /* lisbon_wallpaper.jpg in Resources */,
+				4E9B67341845FAA400DF74C9 /* lisbon_belem.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +424,7 @@
 				4EC95484182BDBB20065C93D /* POIViewController.m in Sources */,
 				4EC95481182BD3440065C93D /* POIDetailViewController.m in Sources */,
 				4EC95487182BDDE90065C93D /* MapViewController.m in Sources */,
+				4E9B674B1846167100DF74C9 /* DBManager.m in Sources */,
 				4E3B7FD9183AADF900F9F969 /* Favorite.m in Sources */,
 				4EC9542F182BBD020065C93D /* MA4TV2AppDelegate.m in Sources */,
 				4E3B7FDC183AAEBD00F9F969 /* GeoPointTour.m in Sources */,

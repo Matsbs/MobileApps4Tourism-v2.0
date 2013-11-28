@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "POI.h"
+#import "DBManager.h"
 
 
 @interface MapViewController : UIViewController <UIApplicationDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic, retain) MKMapView *mapView;
+@property (nonatomic, retain) NSString *poiName;
+@property (nonatomic, retain) POI *poi;
+@property bool *tour;
 
 @end
