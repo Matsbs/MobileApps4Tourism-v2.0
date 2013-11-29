@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Favorite : NSObject
+@interface Favourite : NSObject
 
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *imagePath;
 
 @end

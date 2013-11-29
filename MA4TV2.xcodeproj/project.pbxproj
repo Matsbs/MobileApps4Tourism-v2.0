@@ -17,7 +17,7 @@
 		4E3B7FCA183AA1F900F9F969 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FC9183AA1F900F9F969 /* POI.m */; };
 		4E3B7FD3183AA82A00F9F969 /* POICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD2183AA82A00F9F969 /* POICategory.m */; };
 		4E3B7FD6183AA90400F9F969 /* Tour.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD5183AA90400F9F969 /* Tour.m */; };
-		4E3B7FD9183AADF900F9F969 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD8183AADF900F9F969 /* Favorite.m */; };
+		4E3B7FD9183AADF900F9F969 /* Favourite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FD8183AADF900F9F969 /* Favourite.m */; };
 		4E3B7FDC183AAEBD00F9F969 /* GeoPointTour.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */; };
 		4E9B672D1845FA2A00DF74C9 /* lisbon_tours.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B672B1845FA2A00DF74C9 /* lisbon_tours.jpg */; };
 		4E9B672E1845FA2A00DF74C9 /* sintra_tours.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B672C1845FA2A00DF74C9 /* sintra_tours.jpg */; };
@@ -37,6 +37,7 @@
 		4E9B674B1846167100DF74C9 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B674A1846167100DF74C9 /* DBManager.m */; };
 		4E9B674D1847459200DF74C9 /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B674C1847459200DF74C9 /* next@2x.png */; };
 		4E9B674F1847485100DF74C9 /* prev@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B674E1847485100DF74C9 /* prev@2x.png */; };
+		4E9B67521847F5F300DF74C9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B67511847F5F300DF74C9 /* SearchViewController.m */; };
 		4EC9541F182BBD020065C93D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC9541E182BBD020065C93D /* Foundation.framework */; };
 		4EC95421182BBD020065C93D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95420182BBD020065C93D /* CoreGraphics.framework */; };
 		4EC95423182BBD020065C93D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC95422182BBD020065C93D /* UIKit.framework */; };
@@ -87,8 +88,8 @@
 		4E3B7FD2183AA82A00F9F969 /* POICategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POICategory.m; path = ../POICategory.m; sourceTree = "<group>"; };
 		4E3B7FD4183AA90400F9F969 /* Tour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tour.h; sourceTree = "<group>"; };
 		4E3B7FD5183AA90400F9F969 /* Tour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tour.m; sourceTree = "<group>"; };
-		4E3B7FD7183AADF900F9F969 /* Favorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Favorite.h; sourceTree = "<group>"; };
-		4E3B7FD8183AADF900F9F969 /* Favorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favorite.m; sourceTree = "<group>"; };
+		4E3B7FD7183AADF900F9F969 /* Favourite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Favourite.h; sourceTree = "<group>"; };
+		4E3B7FD8183AADF900F9F969 /* Favourite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favourite.m; sourceTree = "<group>"; };
 		4E3B7FDA183AAEBD00F9F969 /* GeoPointTour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoPointTour.h; sourceTree = "<group>"; };
 		4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoPointTour.m; sourceTree = "<group>"; };
 		4E9B672B1845FA2A00DF74C9 /* lisbon_tours.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lisbon_tours.jpg; sourceTree = "<group>"; };
@@ -110,6 +111,8 @@
 		4E9B674A1846167100DF74C9 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		4E9B674C1847459200DF74C9 /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
 		4E9B674E1847485100DF74C9 /* prev@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prev@2x.png"; sourceTree = "<group>"; };
+		4E9B67501847F5F300DF74C9 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		4E9B67511847F5F300DF74C9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		4EC9541B182BBD020065C93D /* MA4TV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MA4TV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC9541E182BBD020065C93D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4EC95420182BBD020065C93D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -240,8 +243,8 @@
 				4E9B674A1846167100DF74C9 /* DBManager.m */,
 				4E3B7FDA183AAEBD00F9F969 /* GeoPointTour.h */,
 				4E3B7FDB183AAEBD00F9F969 /* GeoPointTour.m */,
-				4E3B7FD7183AADF900F9F969 /* Favorite.h */,
-				4E3B7FD8183AADF900F9F969 /* Favorite.m */,
+				4E3B7FD7183AADF900F9F969 /* Favourite.h */,
+				4E3B7FD8183AADF900F9F969 /* Favourite.m */,
 				4E3B7FD4183AA90400F9F969 /* Tour.h */,
 				4E3B7FD5183AA90400F9F969 /* Tour.m */,
 				4EC95482182BDBB20065C93D /* POIViewController.h */,
@@ -261,6 +264,8 @@
 				4E007629182CD97F003CA4C4 /* FavouritesViewController.h */,
 				4E00762A182CD97F003CA4C4 /* FavouritesViewController.m */,
 				4EC95485182BDDE90065C93D /* MapViewController.m */,
+				4E9B67501847F5F300DF74C9 /* SearchViewController.h */,
+				4E9B67511847F5F300DF74C9 /* SearchViewController.m */,
 				4EC95486182BDDE90065C93D /* MapViewController.h */,
 				4EC95430182BBD020065C93D /* Images.xcassets */,
 				4EC95425182BBD020065C93D /* Supporting Files */,
@@ -422,10 +427,11 @@
 				4E007631182CE86C003CA4C4 /* TourDetailViewController.m in Sources */,
 				4E3B7FD3183AA82A00F9F969 /* POICategory.m in Sources */,
 				4EC95484182BDBB20065C93D /* POIViewController.m in Sources */,
+				4E9B67521847F5F300DF74C9 /* SearchViewController.m in Sources */,
 				4EC95481182BD3440065C93D /* POIDetailViewController.m in Sources */,
 				4EC95487182BDDE90065C93D /* MapViewController.m in Sources */,
 				4E9B674B1846167100DF74C9 /* DBManager.m in Sources */,
-				4E3B7FD9183AADF900F9F969 /* Favorite.m in Sources */,
+				4E3B7FD9183AADF900F9F969 /* Favourite.m in Sources */,
 				4EC9542F182BBD020065C93D /* MA4TV2AppDelegate.m in Sources */,
 				4E3B7FDC183AAEBD00F9F969 /* GeoPointTour.m in Sources */,
 				4E00762E182CE724003CA4C4 /* TourViewController.m in Sources */,

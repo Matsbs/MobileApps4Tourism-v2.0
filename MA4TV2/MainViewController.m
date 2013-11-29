@@ -86,7 +86,7 @@
     [barItems addObject:mapButton];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
        [barItems addObject:flexSpace];
-    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithTitle:@"Search" style: UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithTitle:@"Search" style: UIBarButtonItemStylePlain target:self action:@selector(searchClicked:)];
     [barItems addObject:searchButton];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
@@ -147,14 +147,21 @@
 //    }
 //    [self.tableView reloadData];
 //}
+                                     
 
 - (IBAction)favouritesClicked:(id)sender {
     FavouritesViewController *favView = [[FavouritesViewController alloc] init];
     [self.navigationController pushViewController:favView animated:YES];
 }
 
+- (IBAction)searchClicked:(id)sender{
+    SearchViewController *searchView = [[SearchViewController alloc] init];
+    [self.navigationController pushViewController:searchView animated:YES];
+}
+
 - (IBAction)mapClicked:(id)sender {
     MapViewController *mapView = [[MapViewController alloc] init];
+    mapView.showAll = YES;
     [self.navigationController pushViewController:mapView animated:YES];
 }
 

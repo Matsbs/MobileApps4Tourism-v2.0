@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "POI.h"
+#import "DBManager.h"
 
 @interface FavouritesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) NSMutableArray *taskArray;
-//@property (nonatomic, retain) Task *task;
+@property (nonatomic, retain) NSMutableArray *favourites;
+//@property (nonatomic, retain) DBManager *dbManager;
 
 @end

@@ -18,6 +18,7 @@
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, retain) NSString *poiName;
 @property (nonatomic, retain) POI *poi;
-@property bool *tour;
+@property (nonatomic, retain) NSMutableArray *pois;
+@property bool showAll;
 
 @end

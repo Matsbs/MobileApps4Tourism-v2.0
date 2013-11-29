@@ -10,6 +10,7 @@
 #import "MapViewController.h"
 #import "POI.h"
 #import "DBManager.h"
+#import "Favourite.h"
 
 @interface POIDetailViewController : UIViewController
 

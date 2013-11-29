@@ -69,7 +69,7 @@
     
     poi.name = @"Castle of Sao Jorge";
     poi.description = @"Description";
-    poi.image = @"sao_jorge.jpg";
+    poi.imagePath = @"sao_jorge.jpg";
     poi.latitude = 38.714364;
     poi.longitude = -9.133526;
     poi.rating = 5.0;
@@ -79,7 +79,7 @@
     
     poi.name = @"SÈ de Lisboa (Cathedral)";
     poi.description = @"Description";
-    poi.image = @"se.jpg";
+    poi.imagePath = @"se.jpg";
     poi.latitude = 38.710328;
     poi.longitude = -9.132603;
     poi.rating = 5.0;
@@ -89,7 +89,7 @@
     
     poi.name = @"Rossio (Pedro IV Square)";
     poi.description = @"Description";
-    poi.image = @"rossio.jpg";
+    poi.imagePath = @"rossio.jpg";
     poi.latitude = 38.71423;
     poi.longitude = -9.138955;
     poi.rating = 5.0;
@@ -99,7 +99,7 @@
     
     poi.name = @"CalÁada da GlÛria (Funicular)";
     poi.description = @"Description";
-    poi.image = @"gloria.jpg";
+    poi.imagePath = @"gloria.jpg";
     poi.latitude = 38.715552;
     poi.longitude = -9.143482;
     poi.rating = 5.0;
@@ -109,7 +109,7 @@
     
     poi.name = @"Instituto Superior TÈcnico (IST)";
     poi.description = @"Instituto Superior TÈcnico (IST) is a school of engineering, part of the Universidade de Lisboa (University of Lisbon). Founded in 1911, IST is the largest and the most prestigious school of engineering in Portugal. It is a public school with a large degree of scientific and financial autonomy.";
-    poi.image = @"ist.jpg";
+    poi.imagePath = @"ist.jpg";
     poi.latitude = 38.737616;
     poi.longitude = -9.139387;
     poi.rating = 5.0;
@@ -119,7 +119,7 @@
     
     poi.name = @"Bairro Alto";
     poi.description = @"Bairro Alto is a central district of the city of Lisbon, the Portuguese capital. Unlike many of the civil parishes of Lisbon, this region can be commonly explained as a loose association of neighbourhoods, with no formal local political authority but social and historical significance to the urban community of Lisbon.";
-    poi.image = @"barrio.jpg";
+    poi.imagePath = @"barrio.jpg";
     poi.latitude = 38.711433;
     poi.longitude = -9.150631;
     poi.rating = 5.0;
@@ -172,7 +172,7 @@
             if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
                 //_status.text = @"Failed to create table";
             }
-            sql_stmt = "CREATE TABLE IF NOT EXISTS FAVOURITES (NAME TEXT PRIMARY KEY)";
+            sql_stmt = "CREATE TABLE IF NOT EXISTS FAVOURITES (NAME TEXT PRIMARY KEY, IMAGE TEXT)";
             if (sqlite3_exec(_TOURISMDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK){
                 //_status.text = @"Failed to create table";
             }
@@ -193,6 +193,8 @@
         //_status.text = @"Failed to open/create database";
         }
         [self populateDatabase];
+        NSLog(@"Database created! Path: %@",_databasePath);
+        
     }
 }
 
@@ -254,7 +256,7 @@
     sqlite3_stmt *statement;
     const char *dbpath = [_databasePath UTF8String];
     if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO POIS (name, description, image, url, latitude, longitude, rating) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%f\", \"%f\", \"%f\")", poi.name, poi.description, poi.image, poi.url, poi.latitude, poi.longitude, poi.rating];
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO POIS (name, description, image, url, latitude, longitude, rating) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%f\", \"%f\", \"%f\")", poi.name, poi.description, poi.imagePath, poi.url, poi.latitude, poi.longitude, poi.rating];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
@@ -268,15 +270,33 @@
     }
 }
 
-- (void)insertFavourite:(Favorite *)favorite{
+- (void)insertFavourite:(Favourite *)favourite{
     sqlite3_stmt *statement;
     const char *dbpath = [_databasePath UTF8String];
     if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO FAVORITES (name) VALUES (\"%@\")", favorite.name];
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT OR IGNORE INTO FAVOURITES (name,image) VALUES (\"%@\", \"%@\")", favourite.name, favourite.imagePath];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"Favorite inserted");
+            NSLog(@"Favourite inserted");
+        }else{
+            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+        }
+        sqlite3_reset(statement);
+        sqlite3_finalize(statement);
+        sqlite3_close(_TOURISMDB);
+    }
+}
+
+- (void)deleteFavourite:(Favourite *)favourite{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *insertSQL = [NSString stringWithFormat:@"DELETE FROM FAVOURITES WHERE (name) = (\"%@\")", favourite.name];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"Favourite deleted");
         }else{
             //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
         }
@@ -316,7 +336,7 @@
                 POI *newPOI = [[POI alloc]init];
                 newPOI.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 newPOI.description = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                newPOI.image = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                newPOI.imagePath = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
                 newPOI.url = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
                 newPOI.latitude = sqlite3_column_double(statement, 4);
                 newPOI.longitude = sqlite3_column_double(statement, 5);
@@ -354,6 +374,27 @@
         sqlite3_close(_TOURISMDB);
     }
     return Tours;
+}
+
+- (NSMutableArray*)getAllFavourites{
+    NSMutableArray *favourites =[[NSMutableArray alloc] init];
+    const char *dbpath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM FAVOURITES"];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(_TOURISMDB,query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            while (sqlite3_step(statement) == SQLITE_ROW){
+                Favourite *newFavourite = [[Favourite alloc]init];
+                newFavourite.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                newFavourite.imagePath = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                [favourites addObject:newFavourite];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_TOURISMDB);
+    }
+    return favourites;
 }
 
 - (NSMutableArray*)getAllTourCategories{
@@ -409,7 +450,7 @@
             if (sqlite3_step(statement) == SQLITE_ROW){
                 newPOI.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 newPOI.description = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                newPOI.image = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                newPOI.imagePath = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
                 newPOI.url = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
                 newPOI.latitude = sqlite3_column_double(statement, 4);
                 newPOI.longitude = sqlite3_column_double(statement, 5);
@@ -459,7 +500,7 @@
                 POI *newPOI = [[POI alloc]init];
                 newPOI.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
                 newPOI.description = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
-                newPOI.image = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
+                newPOI.imagePath = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 3)];
                 newPOI.latitude = sqlite3_column_double(statement, 4);
                 newPOI.longitude = sqlite3_column_double(statement, 5);
                 [POIs addObject:newPOI];
@@ -489,7 +530,7 @@
                 POI *newPOI = [[POI alloc]init];
                 newPOI.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
                 newPOI.description = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
-                newPOI.image = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                newPOI.imagePath = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
                 newPOI.latitude = sqlite3_column_double(statement, 3);
                 newPOI.longitude = sqlite3_column_double(statement, 4);
                 [POIs addObject:newPOI];

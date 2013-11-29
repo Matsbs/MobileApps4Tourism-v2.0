@@ -15,9 +15,10 @@
 #import "POICategory.h"
 #import "Tour.h"
 #import "POI.h"
-#import "Favorite.h"
+#import "Favourite.h"
 #import "GeoPointTour.h"
 #import "DBManager.h"
+#import "SearchViewController.h"
 
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 

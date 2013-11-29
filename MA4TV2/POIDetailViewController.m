@@ -40,7 +40,7 @@
     self.view.backgroundColor =  [UIColor groupTableViewBackgroundColor];
     self.title = self.poi.name;
     
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.poi.image]];
+    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.poi.imagePath]];
     self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
     [self.view addSubview:self.imageView];
     
@@ -55,7 +55,7 @@
     [barItems addObject:wikiButton];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Add to Favourites" style: UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Add to Favourites" style: UIBarButtonItemStylePlain target:self action:@selector(addToFavourites:)];
     [barItems addObject:saveButton];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
@@ -84,6 +84,30 @@
 
     [downToolbar setItems:barItems2 animated:YES];
     [self.view addSubview:downToolbar];
+}
+
+- (IBAction)addToFavourites:(id)sender{
+    Favourite *newFavourite = [[Favourite alloc] init];
+    newFavourite.name = self.poi.name;
+    newFavourite.imagePath = self.poi.imagePath;
+    
+    DBManager *dbManager = [[DBManager alloc]init];
+    NSString *docsDir;
+    NSArray *dirPaths;
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = dirPaths[0];
+    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+    
+    [dbManager insertFavourite:newFavourite];
+    
+    NSString *alertTitle = [[NSString alloc] init];
+    alertTitle = [NSString stringWithFormat:@"%@ %@", self.poi.name, @"was added to favourites!"];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
+                                                    message:nil
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 - (IBAction)mapClicked:(id)sender{

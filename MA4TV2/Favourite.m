@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Mats Sandvoll. All rights reserved.
 //
 
-#import "Favorite.h"
+#import "Favourite.h"
 
-@implementation Favorite
+@implementation Favourite
 
 @end

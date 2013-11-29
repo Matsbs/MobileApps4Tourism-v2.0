@@ -26,12 +26,10 @@
     docsDir = dirPaths[0];
     dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
     
-    self.poi = [[POI alloc] init];
-    self.poi = [dbManager getPOIbyName:self.poiName];
-    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
+    
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
     self.mapView.mapType = MKMapTypeStandard;
     self.mapView.zoomEnabled = YES;
@@ -39,36 +37,54 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     
-    CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 800, 800);
-    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
-    
-    // Add an annotation
-    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-    //CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
-    point.coordinate = coord;
-    point.title = self.poi.name;
-    point.subtitle = self.poi.description;
-    [self.mapView addAnnotation:point];
-    
-    
+    if (self.showAll == NO) {
+        //self.poi = [[POI alloc] init];
+        self.poi = [dbManager getPOIbyName:self.poiName];
+        
+        CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 800, 800);
+        [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+        
+        // Add an annotation
+        MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+        //CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+        point.coordinate = coord;
+        point.title = self.poi.name;
+        point.subtitle = self.poi.description;
+        [self.mapView addAnnotation:point];
+    }else{
+        self.pois = [dbManager getAllPOIs];
+        for (int i=0; i<self.pois.count; i++) {
+            CLLocationCoordinate2D coord = {.latitude =  [[self.pois objectAtIndex:i] latitude], .longitude =  [[self.pois objectAtIndex:i] longitude]};
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000);
+            [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+            
+            // Add an annotation
+            MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+            //CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+            point.coordinate = coord;
+            point.title = [[self.pois objectAtIndex:i] name];
+            point.subtitle = [[self.pois objectAtIndex:i] description];
+            [self.mapView addAnnotation:point];
+        }
+    }
     [self.view addSubview:self.mapView];
     
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
-    [mapView setRegion:[mapView regionThatFits:region] animated:YES];
-    
-    // Add an annotation
-    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-    CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
-    point.coordinate = coord;
-    point.title = @"You are here!";
-    
-    NSLog(@"Lat: %f", self.poi.latitude);
-    [self.mapView addAnnotation:point];
+//    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
+//    [mapView setRegion:[mapView regionThatFits:region] animated:YES];
+//    
+//    // Add an annotation
+//    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+//    CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+//    point.coordinate = coord;
+//    point.title = @"You are here!";
+//    
+//    NSLog(@"Lat: %f", self.poi.latitude);
+//    [self.mapView addAnnotation:point];
     //point.subtitle = @"Yes, you are!";
     
     
@@ -88,7 +104,7 @@
 //    point2.subtitle = @"I'm here!!!";
 //
 //    [self.mapView addAnnotation:point2];
-    [self.mapView addAnnotation:point];
+    //[self.mapView addAnnotation:point];
 }
 
 
@@ -115,8 +131,9 @@
 
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
- 
-    NSLog(@"HEI!");
+    POIDetailViewController *poiDetail = [[POIDetailViewController alloc] init];
+    poiDetail.poiName = view.annotation.title;
+    [self.navigationController pushViewController:poiDetail animated:YES];
 }
 
 

@@ -15,7 +15,7 @@
 #import "POICategory.h"
 #import "Tour.h"
 #import "POI.h"
-#import "Favorite.h"
+#import "Favourite.h"
 #import "GeoPointTour.h"
 
 @interface DBManager : NSObject
@@ -29,7 +29,8 @@
 - (void)insertTour:(Tour *)tour;
 - (void)insertPOICategory:(POICategory *)poiCategory;
 - (void)insertPOI:(POI *)poi;
-- (void)insertFavourite:(Favorite *)favorite;
+- (void)insertFavourite:(Favourite *)favorite;
+- (void)deleteFavourite:(Favourite *)favourite;
 - (void)insertGeoPointTour:(GeoPointTour *)geoPointTour;
 - (NSMutableArray*)getAllPOIs;
 - (NSMutableArray*)getAllTours;
@@ -39,6 +40,7 @@
 - (NSMutableArray*)getPOIsbyTourName:(NSString *) tourName;
 - (NSMutableArray*)seachPOIs:(NSString *)searchText :(NSString *)categoryName;
 - (NSMutableArray*)getToursbyTourCategory:(NSString *)tourCategory;
+- (NSMutableArray*)getAllFavourites;
 
 
 @end
