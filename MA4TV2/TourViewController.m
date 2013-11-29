@@ -73,7 +73,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     TourDetailViewController *tourDetail = [[TourDetailViewController alloc] init];
-    tourDetail.tour = [self.tours objectAtIndex:indexPath.row];
+    tourDetail.tourName = [(Tour*)[self.tours objectAtIndex:indexPath.row] name];
     [self.navigationController pushViewController:tourDetail animated:YES];
 }
 

@@ -16,7 +16,8 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UITextView *textView;
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
-@property (nonatomic, retain) Tour *tour;
+@property (nonatomic, retain) NSString *tourName;
 @property (nonatomic, retain) NSMutableArray *POIs;
+@property (nonatomic, retain) Tour *tour;
 
 @end

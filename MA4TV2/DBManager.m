@@ -114,17 +114,17 @@
     poi.longitude = -9.139387;
     poi.rating = 5.0;
     poi.url = @"http://en.wikipedia.org/wiki/Instituto_Superior_T%C3%A9cnico";
-    poi.category = @"Attractions";
+    poi.category = @"Hotels";
     [self insertPOI:poi];
     
     poi.name = @"Bairro Alto";
     poi.description = @"Bairro Alto is a central district of the city of Lisbon, the Portuguese capital. Unlike many of the civil parishes of Lisbon, this region can be commonly explained as a loose association of neighbourhoods, with no formal local political authority but social and historical significance to the urban community of Lisbon.";
-    poi.imagePath = @"barrio.jpg";
+    poi.imagePath = @"bairro.jpg";
     poi.latitude = 38.711433;
     poi.longitude = -9.150631;
     poi.rating = 5.0;
     poi.url = @"http://en.wikipedia.org/wiki/Bairro_Alto";
-    poi.category = @"Attractions";
+    poi.category = @"Food and Drinks";
     [self insertPOI:poi];
     
     //Geo Points
@@ -256,7 +256,7 @@
     sqlite3_stmt *statement;
     const char *dbpath = [_databasePath UTF8String];
     if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO POIS (name, description, image, url, latitude, longitude, rating) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%f\", \"%f\", \"%f\")", poi.name, poi.description, poi.imagePath, poi.url, poi.latitude, poi.longitude, poi.rating];
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO POIS (name, description, image, url, latitude, longitude, rating, category) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%f\", \"%f\", \"%f\", \"%@\")", poi.name, poi.description, poi.imagePath, poi.url, poi.latitude, poi.longitude, poi.rating, poi.category];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
@@ -274,13 +274,13 @@
     sqlite3_stmt *statement;
     const char *dbpath = [_databasePath UTF8String];
     if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT OR IGNORE INTO FAVOURITES (name,image) VALUES (\"%@\", \"%@\")", favourite.name, favourite.imagePath];
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT OR IGNORE INTO FAVOURITES (name) VALUES (\"%@\")", favourite.name];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(_TOURISMDB, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
             NSLog(@"Favourite inserted");
         }else{
-            //NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
+            NSLog(@"%s",sqlite3_errmsg(_TOURISMDB));
         }
         sqlite3_reset(statement);
         sqlite3_finalize(statement);
@@ -376,6 +376,27 @@
     return Tours;
 }
 
+- (Tour*)getToursByName:(NSString *) tourName{
+    Tour *tour = [[Tour alloc]init];
+    const char *dbpath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM TOURS WHERE (NAME) = \"%@\" ",tourName];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(_TOURISMDB,query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            if (sqlite3_step(statement) == SQLITE_ROW){
+                tour.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                tour.description = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                tour.image = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                tour.totalHours = sqlite3_column_double(statement, 3);
+                tour.totalKms = sqlite3_column_double(statement, 4);
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_TOURISMDB);
+    }
+    return tour;
+}
 - (NSMutableArray*)getAllFavourites{
     NSMutableArray *favourites =[[NSMutableArray alloc] init];
     const char *dbpath = [_databasePath UTF8String];
@@ -387,7 +408,6 @@
             while (sqlite3_step(statement) == SQLITE_ROW){
                 Favourite *newFavourite = [[Favourite alloc]init];
                 newFavourite.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-                newFavourite.imagePath = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
                 [favourites addObject:newFavourite];
             }
             sqlite3_finalize(statement);
@@ -522,7 +542,7 @@
         if (categoryName == NULL) {
             querySQL = [NSString stringWithFormat:@"select * from POIS where name like \"%%%@%%\" or description like \"%%%@%%\"", searchText, searchText];
         }else{
-            querySQL = [NSString stringWithFormat:@"select * from POIS where name like \"%%%@%%\" or description like \"%%%@%%\" and category= \"%@\"", searchText, searchText, categoryName];
+            querySQL = [NSString stringWithFormat:@"select * from POIS where (name like \"%%%@%%\" or description like \"%%%@%%\" )and category= \"%@\"", searchText, searchText, categoryName];
         }
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(_TOURISMDB,query_stmt, -1, &statement, NULL) == SQLITE_OK){

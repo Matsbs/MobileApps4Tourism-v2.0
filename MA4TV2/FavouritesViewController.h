@@ -14,6 +14,8 @@
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *favourites;
+@property (nonatomic, retain) POI *poi;
+//@property (nonatomic,retain) NSString *favouriteName;
 //@property (nonatomic, retain) DBManager *dbManager;
 
 @end

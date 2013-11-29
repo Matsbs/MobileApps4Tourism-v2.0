@@ -28,6 +28,7 @@
     docsDir = dirPaths[0];
     dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
     
+    
     self.favourites = [dbManager getAllFavourites];
     
     self.title = @"My Favourites";
@@ -92,16 +93,25 @@
     }
     //if (indexPath.row < self.favourites.count ) {
         //self.task= [self.taskArray objectAtIndex:indexPath.row];
-        cell.textLabel.text = [[self.favourites objectAtIndex:indexPath.row] name];
+        //cell.textLabel.text = [[self.favourites objectAtIndex:indexPath.row] name];
         //cell.imageView.image = [UIImage imageNamed:[[self.favourites objectAtIndex:indexPath.row] imagePath]];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         [cell setIndentationWidth:64];
         [cell setIndentationLevel:1];
+    
+        DBManager *dbManager = [[DBManager alloc]init];
+        NSString *docsDir;
+        NSArray *dirPaths;
+        dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        docsDir = dirPaths[0];
+        dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+        self.poi = [dbManager getPOIbyName:[[self.favourites objectAtIndex:indexPath.row] name]];
+        cell.textLabel.text = self.poi.name;
         UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60,tableView.rowHeight-10)];
         imgView.backgroundColor=[UIColor clearColor];
         [imgView.layer setMasksToBounds:YES];
-        [imgView setImage:[UIImage imageNamed:[(Favourite*)[self.favourites objectAtIndex:indexPath.row] imagePath]]];
+        [imgView setImage:[UIImage imageNamed:self.poi.imagePath]];
         [cell.contentView addSubview:imgView];
     //}
     return cell;

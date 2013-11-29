@@ -100,7 +100,7 @@
     [pickerToolbar setItems:barItems animated:YES];
     [self.view addSubview:pickerToolbar];
    
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     
 }
 
@@ -156,12 +156,14 @@
 
 - (IBAction)searchClicked:(id)sender{
     SearchViewController *searchView = [[SearchViewController alloc] init];
+    searchView.category = @"Search";
     [self.navigationController pushViewController:searchView animated:YES];
 }
 
 - (IBAction)mapClicked:(id)sender {
     MapViewController *mapView = [[MapViewController alloc] init];
     mapView.showAll = YES;
+    mapView.isTour = NO;
     [self.navigationController pushViewController:mapView animated:YES];
 }
 
@@ -212,11 +214,12 @@
     if (indexPath.section==0) {
         TourViewController *tourView = [[TourViewController alloc]init];
         tourView.tourCategory = [(TourCategory*)[self.tourCategories objectAtIndex:indexPath.row] name];
-        //tourView.databasePath = self.databasePath;
         [self.navigationController pushViewController:tourView animated:YES];
     }else{
-        POIViewController *poiView = [[POIViewController alloc] init];
-        [self.navigationController pushViewController:poiView animated:YES];
+        SearchViewController *seachView = [[SearchViewController alloc] init];
+        seachView.category = [(POICategory*)[self.poiCategories objectAtIndex:indexPath.row] name];
+        seachView.searchByCategory = YES;
+        [self.navigationController pushViewController:seachView animated:YES];
     }
 }
 

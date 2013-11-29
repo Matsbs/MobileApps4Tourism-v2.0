@@ -37,7 +37,7 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     
-    if (self.showAll == NO) {
+    if (self.showAll == NO && self.isTour == NO) {
         //self.poi = [[POI alloc] init];
         self.poi = [dbManager getPOIbyName:self.poiName];
         
@@ -52,6 +52,22 @@
         point.title = self.poi.name;
         point.subtitle = self.poi.description;
         [self.mapView addAnnotation:point];
+    }else if (self.isTour == YES){
+        self.pois = [dbManager getPOIsbyTourName:self.tourName];
+        for (int i=0; i<self.pois.count; i++) {
+            CLLocationCoordinate2D coord = {.latitude =  [[self.pois objectAtIndex:i] latitude], .longitude =  [[self.pois objectAtIndex:i] longitude]};
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000);
+            [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+            
+            // Add an annotation
+            MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+            //CLLocationCoordinate2D coord = {.latitude =  self.poi.latitude, .longitude =  self.poi.longitude};
+            point.coordinate = coord;
+            point.title = [[self.pois objectAtIndex:i] name];
+            point.subtitle = [[self.pois objectAtIndex:i] description];
+            [self.mapView addAnnotation:point];
+        }
+        NSLog(@"mapping tour");
     }else{
         self.pois = [dbManager getAllPOIs];
         for (int i=0; i<self.pois.count; i++) {
@@ -70,6 +86,24 @@
     }
     [self.view addSubview:self.mapView];
     
+    CLLocationCoordinate2D coord[2];
+    coord[0].latitude = 38.714364;
+    coord[0].longitude = -9.133526;
+    coord[1].latitude = 38.714555;
+    coord[1].longitude = -10.99999;
+    
+    self.polyLine = [[MKPolyline alloc] init];
+    self.polyLine = [MKPolyline polylineWithCoordinates:coord count:2];
+   
+    
+}
+
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+	MKPolygonRenderer *polygonRenderer = [[MKPolygonRenderer alloc] initWithOverlay:overlay];
+	polygonRenderer.strokeColor = [UIColor blackColor];
+	polygonRenderer.fillColor = [UIColor redColor];
+    
+	return polygonRenderer;
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
@@ -112,16 +146,30 @@
     if([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     NSString *annotationIdentifier = @"PinViewAnnotation";
+    
     MKPinAnnotationView *pinView = (MKPinAnnotationView *) [self.mapView dequeueReusableAnnotationViewWithIdentifier:annotationIdentifier];
     if (!pinView){
         pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationIdentifier];
         [pinView setPinColor:MKPinAnnotationColorGreen];
         pinView.animatesDrop = YES;
         pinView.canShowCallout = YES;
-        UIImageView *houseIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"1.png"]];
+        
+        DBManager *dbManager = [[DBManager alloc]init];
+        NSString *docsDir;
+        NSArray *dirPaths;
+        dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        docsDir = dirPaths[0];
+        dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+        
+        POI *newPoi = [dbManager getPOIbyName:annotation.title];
+        
+        UIImageView *houseIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:newPoi.imagePath]];
         [houseIconView setFrame:CGRectMake(0, 0, 30, 30)];
         pinView.leftCalloutAccessoryView = houseIconView;
         pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        //pinView.image = [UIImage imageNamed:@"1.png"];
+        //pinView.frame = CGRectMake(0, 0, 20, 20);
+        
     }
     else{
         pinView.annotation = annotation;

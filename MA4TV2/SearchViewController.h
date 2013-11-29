@@ -14,5 +14,8 @@
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *searchResults;
+@property (nonatomic, retain) NSString *category;
+@property (nonatomic, retain) UITapGestureRecognizer *tapGesture;
+@property bool searchByCategory;
 
 @end

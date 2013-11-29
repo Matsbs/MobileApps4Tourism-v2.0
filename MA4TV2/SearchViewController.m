@@ -32,7 +32,7 @@
     CGFloat screenHeight = screenRect.size.height;
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,60,screenWidth,50)];
-    self.title = @"Search";
+    self.title = self.category;
     self.searchBar.delegate = self;
     [self.view addSubview: self.searchBar];
     
@@ -40,10 +40,10 @@
     self.tableView.rowHeight = 50;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.scrollEnabled = YES;
     [self.view addSubview:self.tableView];
     
-    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-    [self.view addGestureRecognizer:tapGesture];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     DBManager *dbManager = [[DBManager alloc]init];
     NSString *docsDir;
@@ -51,15 +51,26 @@
     dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docsDir = dirPaths[0];
     dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    self.searchResults = [dbManager seachPOIs:@"" :nil];
+    if (self.searchByCategory == YES) {
+        self.searchResults = [dbManager seachPOIs:@"" :self.category];
+        NSLog(@"Search by cat");
+    }else{
+        self.searchResults = [dbManager seachPOIs:@"" :nil];
+    }
     
 }
 
 -(void)hideKeyboard {
     [self.searchBar resignFirstResponder];
 }
-- (void)searchBarTextDidStartEditing:(UISearchBar *)searchBar{
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.view addGestureRecognizer:self.tapGesture];
+    return YES;
+}
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
     NSLog(@"startet entering");
+    [self.view removeGestureRecognizer:self.tapGesture];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -70,14 +81,18 @@
     dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docsDir = dirPaths[0];
     dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    self.searchResults = [dbManager seachPOIs:searchText :nil];
-    NSLog(@"Length %d", self.searchResults.count);
+    if (self.searchByCategory == YES) {
+         self.searchResults = [dbManager seachPOIs:searchText :self.category];
+    }else{
+        self.searchResults = [dbManager seachPOIs:searchText :nil];
+    }
     [self.tableView reloadData];
     
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSLog(@"something");
+    
     [self.searchBar resignFirstResponder];
 }
 
@@ -111,6 +126,13 @@
     [cell.contentView addSubview:imgView];
 
     return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    POIDetailViewController *poiDetail = [[POIDetailViewController alloc] init];
+    poiDetail.poiName = [[self.searchResults objectAtIndex:indexPath.row] name];
+    [self.navigationController pushViewController:poiDetail animated:YES];
 }
 
 

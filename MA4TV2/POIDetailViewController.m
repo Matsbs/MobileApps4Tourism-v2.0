@@ -89,7 +89,6 @@
 - (IBAction)addToFavourites:(id)sender{
     Favourite *newFavourite = [[Favourite alloc] init];
     newFavourite.name = self.poi.name;
-    newFavourite.imagePath = self.poi.imagePath;
     
     DBManager *dbManager = [[DBManager alloc]init];
     NSString *docsDir;

@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "POI.h"
+
 #import "DBManager.h"
 
 
@@ -17,8 +18,11 @@
 
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, retain) NSString *poiName;
+@property (nonatomic, retain) NSString *tourName;
 @property (nonatomic, retain) POI *poi;
 @property (nonatomic, retain) NSMutableArray *pois;
+@property (nonatomic, retain) MKPolyline *polyLine;
 @property bool showAll;
+@property bool isTour;
 
 @end

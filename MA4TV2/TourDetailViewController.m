@@ -26,8 +26,15 @@
     CGFloat screenHeight = screenRect.size.height;
     
     self.view.backgroundColor =  [UIColor groupTableViewBackgroundColor];
-    self.title = self.tour.name;
     
+    DBManager *dbManager = [[DBManager alloc]init];
+    NSString *docsDir;
+    NSArray *dirPaths;
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = dirPaths[0];
+    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+    self.tour = [dbManager getToursByName:self.tourName];
+    self.title = self.tour.name;
     self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.tour.image]];
     self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
     [self.view addSubview:self.imageView];
@@ -76,18 +83,6 @@
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 40+80+(screenHeight/4), screenWidth, screenHeight/8)];
     self.textView.text = @"This is the description.";
     [self.view addSubview:self.textView];
-    
-    DBManager *dbManager = [[DBManager alloc]init];
-    //[dbManager initDatabase];
-    //[dbManager populateDatabase];
-    
-    NSString *docsDir;
-    NSArray *dirPaths;
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    
-    NSLog(@"size: %lu", (unsigned long)[self.POIs count]);
     
     self.POIs = [[NSMutableArray alloc] initWithArray:[dbManager getPOIsbyTourName:self.tour.name]];
     
@@ -140,7 +135,7 @@
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60,tableView.rowHeight-10)];
     imgView.backgroundColor=[UIColor clearColor];
     [imgView.layer setMasksToBounds:YES];
-    [imgView setImage:[UIImage imageNamed:[(Tour*)[self.POIs objectAtIndex:indexPath.row] image]]];
+    [imgView setImage:[UIImage imageNamed:[(POI*)[self.POIs objectAtIndex:indexPath.row] imagePath]]];
     [cell.contentView addSubview:imgView];
     return cell;
 }
@@ -155,6 +150,9 @@
 
 - (IBAction)mapClicked:(id)sender{
     MapViewController *mapView = [[MapViewController alloc] init];
+    mapView.isTour = YES;
+    mapView.showAll = NO;
+    mapView.tourName = self.tourName;
     [self.navigationController pushViewController:mapView animated:YES];
     
 }

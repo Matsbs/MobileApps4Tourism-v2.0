@@ -41,6 +41,7 @@
 - (NSMutableArray*)seachPOIs:(NSString *)searchText :(NSString *)categoryName;
 - (NSMutableArray*)getToursbyTourCategory:(NSString *)tourCategory;
 - (NSMutableArray*)getAllFavourites;
+- (Tour*)getToursByName:(NSString *) tourName;
 
 
 @end
