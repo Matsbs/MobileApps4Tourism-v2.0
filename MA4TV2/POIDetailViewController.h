@@ -19,6 +19,8 @@
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
 @property (nonatomic, retain) NSString *poiName;
 @property (nonatomic, retain) POI *poi;
+@property (nonatomic, retain) NSMutableArray *pois;
+@property NSInteger indexOfPOI;
 
 
 @end

@@ -97,21 +97,41 @@
     //[pickerToolbar sizeToFit];
     //pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems2 = [[NSMutableArray alloc] init];
-    
-    UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithTitle:@"<" style: UIBarButtonItemStylePlain target:self action:nil];
-    [barItems2 addObject:prevButton];
+    self.tours = [dbManager getAllTours];
+    for (int i=0; i<self.tours.count; i++) {
+        if ([[[self.tours objectAtIndex:i] name] isEqualToString:(self.tour.name)]) {
+            self.indexOfTour=i;
+        }
+    }
+    if (self.indexOfTour>0) {
+        UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"prev.png"] style:UIBarButtonItemStylePlain target:self action:@selector(prevClicked:)];
+        [barItems2 addObject:prevButton];
+    }
     
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
-    
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
     
-    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:@">" style:UIBarButtonItemStylePlain target:self action:nil];
-    [barItems2 addObject:nextButton];
+    if (self.indexOfTour < (self.tours.count-1)) {
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"next.png"] style:UIBarButtonItemStylePlain target:self action:@selector(nextClicked:)];
+        [barItems2 addObject:nextButton];
+    }
     
     [downToolbar setItems:barItems2 animated:YES];
     [self.view addSubview:downToolbar];
+}
+
+- (IBAction)nextClicked:(id)sender{
+    TourDetailViewController *tourDetail = [[TourDetailViewController alloc]init];
+    tourDetail.tourName = [[self.tours objectAtIndex:self.indexOfTour+1] name];
+    [self.navigationController pushViewController:tourDetail animated:YES];
+}
+
+- (IBAction)prevClicked:(id)sender{
+    TourDetailViewController *tourDetail = [[TourDetailViewController alloc]init];
+    tourDetail.tourName = [[self.tours objectAtIndex:self.indexOfTour-1] name];
+    [self.navigationController pushViewController:tourDetail animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

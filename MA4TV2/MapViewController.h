@@ -24,5 +24,6 @@
 @property (nonatomic, retain) MKPolyline *polyLine;
 @property bool showAll;
 @property bool isTour;
+@property int counter;
 
 @end

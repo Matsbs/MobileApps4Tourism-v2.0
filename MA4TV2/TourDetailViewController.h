@@ -19,5 +19,7 @@
 @property (nonatomic, retain) NSString *tourName;
 @property (nonatomic, retain) NSMutableArray *POIs;
 @property (nonatomic, retain) Tour *tour;
+@property (nonatomic, retain) NSMutableArray *tours;
+@property NSInteger indexOfTour;
 
 @end

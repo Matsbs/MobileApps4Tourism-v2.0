@@ -73,17 +73,42 @@
     //pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems2 = [[NSMutableArray alloc] init];
     
-    UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"prev.png"] style:UIBarButtonItemStylePlain target:self action:nil];
-    [barItems2 addObject:prevButton];
+    self.pois = [dbManager getAllPOIs];
+    for (int i=0; i<self.pois.count; i++) {
+        if ([[[self.pois objectAtIndex:i] name] isEqualToString:(self.poi.name)]) {
+            self.indexOfPOI=i;
+        }
+    }
+    
+    if (self.indexOfPOI>0) {
+        UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"prev.png"] style:UIBarButtonItemStylePlain target:self action:@selector(prevClicked:)];
+        [barItems2 addObject:prevButton];
+    }
+   
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
-    UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"next.png"] style:UIBarButtonItemStylePlain target:self action:nil];
-    [barItems2 addObject:nextButton];
-
+    
+    if (self.indexOfPOI < (self.pois.count-1)) {
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"next.png"] style:UIBarButtonItemStylePlain target:self action:@selector(nextClicked:)];
+        [barItems2 addObject:nextButton];
+    }
+    
     [downToolbar setItems:barItems2 animated:YES];
     [self.view addSubview:downToolbar];
+}
+
+- (IBAction)nextClicked:(id)sender{
+    POIDetailViewController *poiDetail = [[POIDetailViewController alloc]init];
+    poiDetail.poiName = [[self.pois objectAtIndex:self.indexOfPOI+1] name];
+    [self.navigationController pushViewController:poiDetail animated:YES];
+}
+
+- (IBAction)prevClicked:(id)sender{
+    POIDetailViewController *poiDetail = [[POIDetailViewController alloc]init];
+    poiDetail.poiName = [[self.pois objectAtIndex:self.indexOfPOI-1] name];
+    [self.navigationController pushViewController:poiDetail animated:YES];
 }
 
 - (IBAction)addToFavourites:(id)sender{
