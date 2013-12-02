@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "POI.h"
 #import "DBManager.h"
-
+@class DBManager;
 @interface FavouritesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *favourites;
 @property (nonatomic, retain) POI *poi;
-//@property (nonatomic,retain) NSString *favouriteName;
-//@property (nonatomic, retain) DBManager *dbManager;
+@property (nonatomic, retain) DBManager *dbManager;
 
 @end

@@ -14,15 +14,6 @@
 
 @implementation SearchViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,69 +36,50 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    DBManager *dbManager = [[DBManager alloc]init];
-    NSString *docsDir;
-    NSArray *dirPaths;
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    if (self.searchByCategory == YES) {
-        self.searchResults = [dbManager seachPOIs:@"" :self.category];
-        NSLog(@"Search by cat");
-    }else{
-        self.searchResults = [dbManager seachPOIs:@"" :nil];
-    }
+    self.dbManager = [[DBManager alloc]init];
+    [self.dbManager setDbPath];
     
+    if (self.searchByCategory == YES) {
+        self.searchResults = [self.dbManager seachPOIs:@"" :self.category];
+    }else{
+        self.searchResults = [self.dbManager seachPOIs:@"" :nil];
+    }
 }
 
 -(void)hideKeyboard {
     [self.searchBar resignFirstResponder];
 }
+
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:self.tapGesture];
     return YES;
 }
+
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    NSLog(@"startet entering");
     [self.view removeGestureRecognizer:self.tapGesture];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"OLA!");
-    DBManager *dbManager = [[DBManager alloc]init];
-    NSString *docsDir;
-    NSArray *dirPaths;
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
     if (self.searchByCategory == YES) {
-         self.searchResults = [dbManager seachPOIs:searchText :self.category];
+         self.searchResults = [self.dbManager seachPOIs:searchText :self.category];
     }else{
-        self.searchResults = [dbManager seachPOIs:searchText :nil];
+        self.searchResults = [self.dbManager seachPOIs:searchText :nil];
     }
     [self.tableView reloadData];
-    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSLog(@"something");
-    
     [self.searchBar resignFirstResponder];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.searchResults count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Cell";
@@ -124,7 +96,6 @@
     [imgView.layer setMasksToBounds:YES];
     [imgView setImage:[UIImage imageNamed:[[self.searchResults objectAtIndex:indexPath.row]imagePath]]];
     [cell.contentView addSubview:imgView];
-
     return cell;
 }
 
@@ -135,11 +106,17 @@
     [self.navigationController pushViewController:poiDetail animated:YES];
 }
 
-
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
 }
 
 @end

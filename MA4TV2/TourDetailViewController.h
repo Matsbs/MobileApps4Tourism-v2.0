@@ -10,7 +10,7 @@
 #import "MapViewController.h"
 #import "Tour.h"
 #import "DBManager.h"
-
+@class DBManager;
 @interface TourDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
@@ -21,5 +21,6 @@
 @property (nonatomic, retain) Tour *tour;
 @property (nonatomic, retain) NSMutableArray *tours;
 @property NSInteger indexOfTour;
+@property (nonatomic, retain) DBManager *dbManager;
 
 @end

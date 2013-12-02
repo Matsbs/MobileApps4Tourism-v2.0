@@ -15,6 +15,6 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *tours;
 @property (nonatomic, retain) NSString *tourCategory;
-
+@property (nonatomic, retain) DBManager *dbManager;
 
 @end

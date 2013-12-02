@@ -17,25 +17,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(mapClicked:)];
-        self.navigationItem.rightBarButtonItem = newButton;
-    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
+	// Do any additional setup after loading the view.
     
-    DBManager *dbManager = [[DBManager alloc]init];
-    NSString *docsDir;
-    NSArray *dirPaths;
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+    self.dbManager = [[DBManager alloc]init];
+    [self.dbManager setDbPath];
+    self.poi = [self.dbManager getPOIbyName:self.poiName];
+    self.tours = [self.dbManager getToursbyPOI:self.poi.name];
     
-    self.poi = [[POI alloc] init];
-    self.poi = [dbManager getPOIbyName:self.poiName];
-    NSLog(@"Name: %@", self.poi.name);
+    UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(mapClicked:)];
+        self.navigationItem.rightBarButtonItem = newButton;
     
     self.view.backgroundColor =  [UIColor groupTableViewBackgroundColor];
     self.title = self.poi.name;
@@ -47,7 +40,6 @@
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,40+ 40+(screenHeight/4), screenWidth, 40)];
     pickerToolbar.barStyle = UIBarStyleDefault;
     [pickerToolbar sizeToFit];
-    //pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems addObject:flexSpace];
@@ -63,28 +55,38 @@
     [pickerToolbar setItems:barItems animated:YES];
     [self.view addSubview:pickerToolbar];
     
-    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 40+80+(screenHeight/4), screenWidth, screenHeight/2)];
+    NSInteger tableHeight = (self.tours.count)*50;
+    NSInteger textY = 40+80+(screenHeight/4);
+    NSInteger textHeight = screenHeight-(textY+tableHeight+40);
+    NSLog(@"Height %d", textHeight);
+    
+    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, textY, screenWidth,textHeight)];
     self.textView.text = self.poi.description;
+    self.textView.editable = NO;
     [self.view addSubview:self.textView];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, textY+textHeight,screenWidth, screenHeight-(textY+textHeight+40)) style:UITableViewStylePlain];
+    self.tableView.rowHeight = 50;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
     
     UIToolbar *downToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,screenHeight-40, screenWidth, 40)];
     downToolbar.barStyle = UIBarStyleDefault;
     [downToolbar sizeToFit];
-    //pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems2 = [[NSMutableArray alloc] init];
     
-    self.pois = [dbManager getAllPOIs];
+    self.pois = [self.dbManager getAllPOIs];
     for (int i=0; i<self.pois.count; i++) {
         if ([[[self.pois objectAtIndex:i] name] isEqualToString:(self.poi.name)]) {
             self.indexOfPOI=i;
         }
     }
-    
     if (self.indexOfPOI>0) {
         UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"prev.png"] style:UIBarButtonItemStylePlain target:self action:@selector(prevClicked:)];
         [barItems2 addObject:prevButton];
     }
-   
+    
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [barItems2 addObject:flexSpace];
     flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -97,6 +99,41 @@
     
     [downToolbar setItems:barItems2 animated:YES];
     [self.view addSubview:downToolbar];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.tours count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = [(Tour*)[self.tours objectAtIndex:indexPath.row] name];
+    NSString *tourInfo = [NSString stringWithFormat:@"%.1f %@    %.1f %@", [(Tour*)[self.tours objectAtIndex:indexPath.row] totalHours], @"km", [(Tour*)[self.tours objectAtIndex:indexPath.row] totalKms], @"h" ];
+    cell.detailTextLabel.text = tourInfo;
+    [cell setIndentationWidth:64];
+    [cell setIndentationLevel:1];
+    UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60,tableView.rowHeight-10)];
+    imgView.backgroundColor=[UIColor clearColor];
+    [imgView.layer setMasksToBounds:YES];
+    [imgView setImage:[UIImage imageNamed:[(Tour*)[self.tours objectAtIndex:indexPath.row] image]]];
+    [cell.contentView addSubview:imgView];
+    return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    TourDetailViewController *tourDetail = [[TourDetailViewController alloc] init];
+    tourDetail.tourName = [(Tour*)[self.tours objectAtIndex:indexPath.row] name];
+    [self.navigationController pushViewController:tourDetail animated:YES];
 }
 
 - (IBAction)nextClicked:(id)sender{
@@ -114,23 +151,11 @@
 - (IBAction)addToFavourites:(id)sender{
     Favourite *newFavourite = [[Favourite alloc] init];
     newFavourite.name = self.poi.name;
-    
-    DBManager *dbManager = [[DBManager alloc]init];
-    NSString *docsDir;
-    NSArray *dirPaths;
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    
-    [dbManager insertFavourite:newFavourite];
+    [self.dbManager insertFavourite:newFavourite];
     
     NSString *alertTitle = [[NSString alloc] init];
     alertTitle = [NSString stringWithFormat:@"%@ %@", self.poi.name, @"was added to favourites!"];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
-                                                    message:nil
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }
 

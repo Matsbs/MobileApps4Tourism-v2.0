@@ -342,7 +342,6 @@
                 newPOI.longitude = sqlite3_column_double(statement, 5);
                 newPOI.rating = sqlite3_column_double(statement, 6);
                 [POIs addObject:newPOI];
-                NSLog(@"POI added to array");
             }
             sqlite3_finalize(statement);
         }
@@ -367,7 +366,6 @@
                 newTour.totalHours = sqlite3_column_double(statement, 3);
                 newTour.totalKms = sqlite3_column_double(statement, 4);
                 [Tours addObject:newTour];
-                NSLog(@"Tour added to array");
             }
             sqlite3_finalize(statement);
         }
@@ -524,7 +522,6 @@
                 newPOI.latitude = sqlite3_column_double(statement, 4);
                 newPOI.longitude = sqlite3_column_double(statement, 5);
                 [POIs addObject:newPOI];
-                NSLog(@"Tour added to array");
             }
             sqlite3_finalize(statement);
         }
@@ -562,5 +559,35 @@
     return POIs;
 }
 
+- (void)setDbPath{
+    NSString *docsDir;
+    NSArray *dirPaths;
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = dirPaths[0];
+    self.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
+}
+
+- (NSMutableArray*)getToursbyPOI:(NSString *) poiName{
+    NSMutableArray *tours =[[NSMutableArray alloc] init];
+    const char *dbpath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbpath, &_TOURISMDB) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"select t.name, t.image, t.totalhours, t.totalkms from Tours as t inner join geopointtours as gp on gp.tour=t.name inner join pois as p on p.name=gp.poi where p.name =  \"%@\"", poiName];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(_TOURISMDB,query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            while (sqlite3_step(statement) == SQLITE_ROW){
+                Tour *newTour = [[Tour alloc] init];
+                newTour.name = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
+                newTour.image = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
+                newTour.totalHours = sqlite3_column_double(statement, 2);
+                newTour.totalKms = sqlite3_column_double(statement, 3);
+                [tours addObject:newTour];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_TOURISMDB);
+    }
+    return tours;
+}
 
 @end

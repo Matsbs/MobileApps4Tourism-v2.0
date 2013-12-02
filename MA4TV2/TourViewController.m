@@ -17,23 +17,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    DBManager *dbManager = [[DBManager alloc]init];
-    //[dbManager initDatabase];
-    //[dbManager populateDatabase];
-    
-    NSString *docsDir;
-    NSArray *dirPaths;
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = dirPaths[0];
-    dbManager.databasePath = [[NSString alloc]initWithString: [docsDir stringByAppendingPathComponent:@"TOURISM.db"]];
-    
-    self.tours = [[NSMutableArray alloc] initWithArray:[dbManager getToursbyTourCategory:self.tourCategory]];
-    NSLog(@"size: %lu", (unsigned long)[self.tours count]);
-    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
+    
+    self.dbManager = [[DBManager alloc]init];
+    [self.dbManager setDbPath];
+    self.tours = [[NSMutableArray alloc] initWithArray:[self.dbManager getToursbyTourCategory:self.tourCategory]];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0,screenWidth, screenHeight) style:UITableViewStylePlain];
     self.tableView.rowHeight = 50;
@@ -60,6 +50,8 @@
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [(Tour*)[self.tours objectAtIndex:indexPath.row] name];
+    NSString *tourInfo = [NSString stringWithFormat:@"%.1f %@    %.1f %@", [(Tour*)[self.tours objectAtIndex:indexPath.row] totalHours], @"km", [(Tour*)[self.tours objectAtIndex:indexPath.row] totalKms], @"h" ];
+    cell.detailTextLabel.text = tourInfo;
     [cell setIndentationWidth:64];
     [cell setIndentationLevel:1];
     UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60,tableView.rowHeight-10)];

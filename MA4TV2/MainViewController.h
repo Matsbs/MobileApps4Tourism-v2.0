@@ -24,13 +24,8 @@
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
-//@property (strong, nonatomic) NSString *databasePath;
-//@property (nonatomic) sqlite3 *TOURISMDB;
-@property (strong, nonatomic) NSMutableArray *tourCategories;
-@property (strong, nonatomic) NSMutableArray *poiCategories;
-
-//@property (nonatomic, retain) TourCategory *tourCategory;
-
-
+@property (nonatomic, retain) NSMutableArray *tourCategories;
+@property (nonatomic, retain) NSMutableArray *poiCategories;
+@property (nonatomic, retain) DBManager *dbManager;
 
 @end

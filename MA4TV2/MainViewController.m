@@ -17,51 +17,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    DBManager *dbManager = [[DBManager alloc]init];
-    [dbManager initDatabase];
-    [dbManager getAllTours];
-    
-    
-    
-    self.tourCategories = [[NSMutableArray alloc] initWithArray:[dbManager getAllTourCategories]];
-    self.poiCategories = [[NSMutableArray alloc] initWithArray:[dbManager getAllPOICategories]];
-    
-    //NSLog(@"1 %@", [(TourCategory*)[self.tourCategories objectAtIndex:0] name]);
-    //NSLog(@"2 %@", [self.tourCategories objectAtIndex:1]);
-    
-//    NSArray *POIs =[[NSArray alloc]initWithArray:[self getAllPOIs]];
-//    POI *test = [[POI alloc]init];
-//    POI *test2 = [[POI alloc]init];
-//    test = [POIs objectAtIndex:0];
-//    test2 = [POIs objectAtIndex:1];
-//    NSLog(@"first poi name %@, description %@, image %@, latitude %f", test.name, test.description, test.image, test.latitude);
-//     NSLog(@"first poi name %@, description %@, image %@, latitude %f", test2.name, test2.description, test2.image, test2.latitude);
-//    
-//    POI *new = [[POI alloc] init];
-//    new = [self getPIObyName:@""];
-//    NSLog(@"POI: %@",new.name);
-    
-//    NSArray *POIsbyTourName =[[NSArray alloc]initWithArray:[self getPOIsbyTourName:@"Lisbon Highlight Tours"]];
-//    //POI *some = [[POI alloc] init];
-//    //some = [POIsbyTourName objectAtIndex:0];
-//    NSLog(@"size: %lu",(unsigned long)[POIsbyTourName count]);
-//    
-//    NSArray *poi = [[NSArray alloc] initWithArray:[self seachPOIs:@"Sintra" : @"Food and Drinks"]];
-    //NSLog(@"size p: %lu",(unsigned long)[poi count]);
-    
-    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     
-    self.view.backgroundColor =  [UIColor whiteColor];
+    self.dbManager = [[DBManager alloc]init];
+    [self.dbManager initDatabase];
+    [self.dbManager getAllTours];
+    self.tourCategories = [[NSMutableArray alloc] initWithArray:[self.dbManager getAllTourCategories]];
+    self.poiCategories = [[NSMutableArray alloc] initWithArray:[self.dbManager getAllPOICategories]];
+
     self.title = @"Tourism Advisor";
     
     self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lisbon_wallpaper.jpg"]];
     self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
     self.imageView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.imageView];
-    
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,25+80+(screenHeight/4), screenWidth, screenHeight-(25+80+(screenHeight/4))) style:UITableViewStyleGrouped];
     self.tableView.rowHeight = 50;
@@ -77,8 +48,6 @@
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,40+ 40+(screenHeight/4), screenWidth, 40)];
     pickerToolbar.barStyle = UIBarStyleDefault;
     [pickerToolbar sizeToFit];
-    //pickerToolbar.tintColor = [UIColor groupTableViewBackgroundColor];
-    //pickerToolbar.translucent = YES;
     pickerToolbar.backgroundColor = [UIColor clearColor];
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
@@ -96,58 +65,12 @@
     [barItems addObject:flexSpace];
     UIBarButtonItem *favButton = [[UIBarButtonItem alloc] initWithTitle:@"Favourites" style: UIBarButtonItemStylePlain target:self action:@selector(favouritesClicked:)];
     [barItems addObject:favButton];
-    
     [pickerToolbar setItems:barItems animated:YES];
     [self.view addSubview:pickerToolbar];
    
     self.view.backgroundColor = [UIColor whiteColor];
     
 }
-
-
-
-
-//- (void) findContact:(id)sender{
-//    const char *dbpath = [_databasePath UTF8String];
-//    sqlite3_stmt *statement;
-//    if (sqlite3_open(dbpath, &_ma4tDB) == SQLITE_OK){
-//        NSString *querySQL = [NSString stringWithFormat:
-//                              @"SELECT address, phone FROM contacts WHERE name=\"%@\"",
-//                              @"Name"];
-//        const char *query_stmt = [querySQL UTF8String];
-//        if (sqlite3_prepare_v2(_ma4tDB,
-//                               query_stmt, -1, &statement, NULL) == SQLITE_OK){
-//            if (sqlite3_step(statement) == SQLITE_ROW){
-//                NSString *addressField = [[NSString alloc]initWithUTF8String:(const char *) sqlite3_column_text(statement, 0)];
-//                //_address.text = addressField;
-//                NSString *phoneField = [[NSString alloc]initWithUTF8String:(const char *)sqlite3_column_text(statement, 1)];
-//                //_phone.text = phoneField;
-//                //_status.text = @"Match found";
-//            } else {
-//                //_status.text = @"Match not found";
-//                //_address.text = @"";
-//                //_phone.text = @"";
-//            }
-//            sqlite3_finalize(statement);
-//        }
-//        sqlite3_close(_ma4tDB);
-//    }
-//}
-
-//- (void)addItemViewController:(NewTaskViewController *)controller didFinishEnteringItem:(Task *)item
-//{
-//    NSLog(@"This was returned from ViewControllerB %@",item.category.name);
-//    [self.taskArray addObject:item];
-//    [self.tableView reloadData];
-//}
-//
-//- (void)removeItemViewController:(ViewNoteController *)controller didFinishEnteringItem:(Task *)item{
-//    if([self.taskArray containsObject:item]){
-//        [self.taskArray removeObject:item];
-//    }
-//    [self.tableView reloadData];
-//}
-                                     
 
 - (IBAction)favouritesClicked:(id)sender {
     FavouritesViewController *favView = [[FavouritesViewController alloc] init];

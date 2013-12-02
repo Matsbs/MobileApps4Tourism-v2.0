@@ -42,6 +42,7 @@
 - (NSMutableArray*)getToursbyTourCategory:(NSString *)tourCategory;
 - (NSMutableArray*)getAllFavourites;
 - (Tour*)getToursByName:(NSString *) tourName;
-
+- (void)setDbPath;
+- (NSMutableArray*)getToursbyPOI:(NSString *) poiName;
 
 @end
