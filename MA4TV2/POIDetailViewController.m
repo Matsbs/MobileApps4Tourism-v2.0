@@ -83,7 +83,7 @@
         }
     }
     
-    //test
+    //testtt
     
     if (self.indexOfPOI>0) {
         UIBarButtonItem *prevButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"prev.png"] style:UIBarButtonItemStylePlain target:self action:@selector(prevClicked:)];
