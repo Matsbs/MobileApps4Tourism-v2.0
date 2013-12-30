@@ -29,7 +29,9 @@
 
     self.title = @"Tourism Advisor";
     
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lisbon_wallpaper.jpg"]];
+    
+    self.imageView = [[UIImageView alloc] init]; //]WithImage:[UIImage imageNamed:@"lisbon_wallpaper.jpg"]];
+    self.imageView.image = [UIImage imageNamed:@"lisbon_wallpaper.jpg"];
     self.imageView.frame = CGRectMake(0, 40, screenWidth, screenHeight/4+40);
     self.imageView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.imageView];
@@ -69,6 +71,13 @@
     [self.view addSubview:pickerToolbar];
    
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.label = [[UILabel alloc]init];
+    self.label.frame = CGRectMake(0, 0, 200, 200);
+    [self.view addSubview:self.label];
+ 
+    
+    
     
 }
 

@@ -22,7 +22,8 @@
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,60,screenWidth,50)];
+    self.searchBar = [[UISearchBar alloc] init ];//WithFrame:CGRectMake(0,60,screenWidth,50)];
+    self.searchBar.frame = CGRectMake(0, 60, screenWidth,50);
     self.title = self.category;
     self.searchBar.delegate = self;
     [self.view addSubview: self.searchBar];

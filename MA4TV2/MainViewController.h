@@ -23,9 +23,10 @@
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UIImageView *imageView;
+@property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) NSMutableArray *tourCategories;
 @property (nonatomic, retain) NSMutableArray *poiCategories;
 @property (nonatomic, retain) DBManager *dbManager;
+@property (nonatomic, retain) UILabel *label;
 
 @end

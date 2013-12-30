@@ -18,7 +18,7 @@
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UITextView *textView;
-@property (nonatomic, retain) IBOutlet UIImageView *imageView;
+@property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) NSString *poiName;
 @property (nonatomic, retain) POI *poi;
 @property (nonatomic, retain) NSMutableArray *pois;
